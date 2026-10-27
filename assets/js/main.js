@@ -314,12 +314,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 const customerReceiptHtml = `
                     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06);">
                         <div style="background: linear-gradient(135deg, #0b1e34 0%, #173256 100%); color: #ffffff; padding: 24px; text-align: center;">
-                            <h2 style="margin: 0; font-size: 22px; color: #ffffff;">Safe Journeys Happy Memories</h2>
+                            <h2 style="margin: 0; font-size: 22px; color: #ffffff;">Naminath Travels</h2>
                             <p style="margin: 6px 0 0; color: #94a3b8; font-size: 14px;">Ride Booking Inquiry Registered</p>
                         </div>
                         <div style="padding: 24px;">
                             <p style="font-size: 15px; color: #1e293b; margin-top: 0;">Dear <strong>${name}</strong>,</p>
-                            <p style="font-size: 14px; color: #475569; line-height: 1.6;">Thank you for booking with Safe Journeys! Your ride inquiry has been successfully registered. Below are the complete details of what you booked:</p>
+                            <p style="font-size: 14px; color: #475569; line-height: 1.6;">Thank you for booking with Naminath Travels! Your ride inquiry has been successfully registered. Below are the complete details of what you booked:</p>
                             
                             <div style="background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 12px 16px; margin: 16px 0;">
                                 <span style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: bold; display: block;">Booking Reference ID</span>
@@ -345,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <p style="font-size: 13px; color: #64748b; margin-top: 18px;">Emergency / Fast Support Helpline: <strong>+91 98765 43210</strong></p>
                         </div>
                         <div style="background: #f8fafc; padding: 14px 24px; border-top: 1px solid #e2e8f0; font-size: 12px; color: #94a3b8; text-align: center;">
-                            Safe Journeys Happy Memories &bull; Sihor, Bhavnagar, Gujarat
+                            Naminath Travels &bull; Sihor, Bhavnagar, Gujarat
                         </div>
                     </div>
                 `;
@@ -357,7 +357,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify({
                         to: email,
                         toName: name,
-                        subject: `Booking Request Received: ${bookingId} - ${vehicleType} | Safe Journeys`,
+                        subject: `Booking Request Received: ${bookingId} - ${vehicleType} | Naminath Travels`,
                         htmlContent: customerReceiptHtml,
                         textContent: emailBody,
                         replyTo: OWNER_EMAIL

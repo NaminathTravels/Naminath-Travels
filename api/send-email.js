@@ -8,7 +8,7 @@
 // ==============================================================================
 
 const DEFAULT_SENDER_EMAIL = 'naminathtravels22@gmail.com';
-const DEFAULT_SENDER_NAME = 'Safe Journeys Happy Memories';
+const DEFAULT_SENDER_NAME = 'Naminath Travels';
 
 module.exports = async function handler(req, res) {
     // 1. Enable Cross-Origin Resource Sharing (CORS)
@@ -95,14 +95,14 @@ module.exports = async function handler(req, res) {
         const finalHtml = htmlContent || `
             <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px;">
                 <div style="padding-bottom: 16px; border-bottom: 2px solid #0284c7; margin-bottom: 20px;">
-                    <h2 style="margin: 0; color: #0f172a;">Safe Journeys Happy Memories</h2>
+                    <h2 style="margin: 0; color: #0f172a;">Naminath Travels</h2>
                     <p style="margin: 4px 0 0; color: #64748b; font-size: 14px;">Travel Safe, Travel Happy</p>
                 </div>
                 <div style="font-size: 15px; line-height: 1.7; color: #334155;">
                     ${(textContent || '').replace(/\n/g, '<br>')}
                 </div>
                 <div style="margin-top: 28px; padding-top: 16px; border-top: 1px solid #e2e8f0; font-size: 12px; color: #94a3b8; text-align: center;">
-                    Safe Journeys Happy Memories &bull; Sihor, Bhavnagar, Gujarat &bull; Support: +91 98765 43210
+                    Naminath Travels &bull; Sihor, Bhavnagar, Gujarat &bull; Support: +91 98765 43210
                 </div>
             </div>
         `;

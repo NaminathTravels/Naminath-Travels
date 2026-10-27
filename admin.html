@@ -208,7 +208,7 @@
                 </div>
                 <div class="email-preview-container">
                     <div class="email-preview-header">
-                        <div><strong>From:</strong> Safe Journeys Happy Memories &lt;<span id="preview-from">naminathtravels22@gmail.com</span>&gt;</div>
+                        <div><strong>From:</strong> Naminath Travels &lt;<span id="preview-from">naminathtravels22@gmail.com</span>&gt;</div>
                         <div><strong>To:</strong> <span id="preview-to" style="color: #0284c7; font-weight: 600;">customer@email.com</span></div>
                         <div><strong>Subject:</strong> <span id="preview-subject" style="font-weight: 600;">Booking Approved &amp; Confirmed...</span></div>
                     </div>
@@ -583,15 +583,15 @@
             const ownerEmail = cfg.ownerEmail || DEFAULT_OWNER_EMAIL;
 
             // Formatted email subject line
-            const subject = `Ride Booking Confirmed: ${b.id} - ${b.vehicle_type} | Safe Journeys Happy Memories`;
+            const subject = `Ride Booking Confirmed: ${b.id} - ${b.vehicle_type} | Naminath Travels`;
 
             // Complete email body text with all 8 booking fields
             const body = `======================================================\n` +
                 `BOOKING CONFIRMATION & APPROVED TRIP ITINERARY\n` +
-                `Safe Journeys Happy Memories - Sihor, Gujarat\n` +
+                `Naminath Travels - Sihor, Gujarat\n` +
                 `======================================================\n\n` +
                 `Dear ${b.name},\n\n` +
-                `Great news! Your travel booking request with Safe Journeys Happy Memories has been APPROVED & CONFIRMED by our administration.\n\n` +
+                `Great news! Your travel booking request with Naminath Travels has been APPROVED & CONFIRMED by our administration.\n\n` +
                 `Here are your full booking and trip details:\n\n` +
                 `------------------------------------------------------\n` +
                 `1. PASSENGER INFORMATION:\n` +
@@ -623,7 +623,7 @@
                 `📞 Phone / Support : +91 98765 43210\n` +
                 `✉️ Email           : ${ownerEmail}\n` +
                 `📍 Office Address  : Station Road, Sihor, Bhavnagar, Gujarat - 364240\n\n` +
-                `Thank you for choosing Safe Journeys Happy Memories!\n` +
+                `Thank you for choosing Naminath Travels!\n` +
                 `Wishing you a very safe journey and happy memories!`;
 
             return { subject, body, ownerEmail };
@@ -1125,16 +1125,16 @@
 
             // Dispatch cancellation notice via server Brevo proxy if email is available
             if (b.email) {
-                const cancellationSubject = `Booking Update: Ride Request ${b.id} (${b.travel_date}) - Safe Journeys`;
+                const cancellationSubject = `Booking Update: Ride Request ${b.id} (${b.travel_date}) - Naminath Travels`;
                 const cancellationBody = `Dear ${b.name},\n\n` +
-                    `Thank you for requesting a ride with Safe Journeys Happy Memories for ${b.travel_date} (${b.pickup} to ${b.destination}).\n\n` +
+                    `Thank you for requesting a ride with Naminath Travels for ${b.travel_date} (${b.pickup} to ${b.destination}).\n\n` +
                     `We regret to inform you that our dispatch administration is unable to accommodate booking #${b.id} due to the following reason:\n` +
                     `"${reason}"\n\n` +
                     `We apologize for any inconvenience this may cause. If you wish to reschedule or discuss alternative ride options, please reach out directly:\n\n` +
                     `📞 Phone / WhatsApp: +91 98765 43210\n` +
                     `✉️ Email: ${DEFAULT_OWNER_EMAIL}\n` +
                     `📍 Address: Station Road, Sihor, Bhavnagar, Gujarat - 364240\n\n` +
-                    `Safe Journeys Happy Memories Dispatch Team`;
+                    `Naminath Travels Dispatch Team`;
 
                 try {
                     await fetch('/api/send-email', {
