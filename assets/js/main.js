@@ -1,47 +1,21 @@
-// ============================================================================
-// SAFE JOURNEYS HAPPY MEMORIES - MAIN JAVASCRIPT FILE
-// ============================================================================
-// This file controls all interactive features on the customer-facing website:
-// 1. Mobile navigation menu (open/close)
-// 2. Active navbar link highlighting when scrolling
-// 3. Vehicle fleet slider & clicking a car to auto-fill the booking form
-// 4. Photo gallery carousel and image popup modal (lightbox)
-// 5. Ride booking form submission:
-//    - Validates customer inputs
-//    - Generates a unique Booking Reference ID (e.g. BK-20261001-9X7B)
-//    - Saves booking in browser storage for the admin dashboard
-//    - Sends instant email notification to both Customer and Owner
-//    - Shows a friendly confirmation alert and toast message
-// ============================================================================
 
-// The official business email address where trip inquiries are delivered
+
 const OWNER_EMAIL = 'naminathtravels22@gmail.com';
 
-// Security Note: Private email API credentials are kept safe on the backend server (.env)
-
-// Run all code only after the HTML page has fully loaded in the browser
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ========================================================================
-    // SECTION 1: MOBILE NAVIGATION MENU (HAMBURGER BUTTON)
-    // ========================================================================
-    // When viewing on a mobile phone or tablet, clicking the hamburger icon
-    // slides the navigation menu open or closed. Clicking any menu link also
-    // closes the menu so the user can see the selected page section.
-    
     const mobileToggle = document.getElementById('mobile-menu-toggle');
     const mainNav = document.getElementById('main-nav');
     const navLinks = document.querySelectorAll('.nav-link');
 
     if (mobileToggle && mainNav) {
-        // Toggle menu open/closed when hamburger button is clicked
+        
         mobileToggle.addEventListener('click', () => {
             const isOpen = mainNav.classList.toggle('is-open');
             mobileToggle.setAttribute('aria-expanded', isOpen);
             mobileToggle.classList.toggle('active');
         });
 
-        // Close mobile menu automatically when any navigation link is clicked
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
                 if (mainNav.classList.contains('is-open')) {
@@ -53,12 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ========================================================================
-    // SECTION 2: SCROLL SPY (ACTIVE NAVBAR LINK HIGHLIGHTING)
-    // ========================================================================
-    // As the user scrolls down the webpage, this detects which section is
-    // currently visible on the screen and highlights the matching navbar link.
-    
     const sections = document.querySelectorAll('section[id], footer[id]');
 
     window.addEventListener('scroll', () => {
@@ -66,12 +34,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         sections.forEach(current => {
             const sectionHeight = current.offsetHeight;
-            const sectionTop = current.offsetTop - 120; // Offset for fixed top navbar
+            const sectionTop = current.offsetTop - 120; 
             const sectionId = current.getAttribute('id');
             const correspondingLink = document.querySelector(`.nav-menu a[href*="${sectionId}"]`);
 
             if (correspondingLink) {
-                // If section is in the viewing area, mark nav link as active
+                
                 if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
                     correspondingLink.classList.add('active');
                 } else {
@@ -81,47 +49,29 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ========================================================================
-    // SECTION 3: VEHICLE FLEET SLIDER (PREVIOUS & NEXT ARROWS)
-    // ========================================================================
-    // Controls the horizontal scrolling for the vehicle fleet cards when
-    // clicking the left and right arrow buttons.
-    
     const vehicleTrackContainer = document.getElementById('vehicles-track-container');
     const prevVehicleBtn = document.getElementById('vehicles-prev');
     const nextVehicleBtn = document.getElementById('vehicles-next');
     const vehicleSelect = document.getElementById('vehicle_type');
 
     if (vehicleTrackContainer && prevVehicleBtn && nextVehicleBtn) {
-        const scrollAmount = 260; // Pixels to slide on each button click
+        const scrollAmount = 260; 
 
-        // Scroll fleet track to the left
         prevVehicleBtn.addEventListener('click', () => {
             vehicleTrackContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
         });
 
-        // Scroll fleet track to the right
         nextVehicleBtn.addEventListener('click', () => {
             vehicleTrackContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
         });
     }
 
-    // ========================================================================
-    // SECTION 4: CLICK VEHICLE CARD TO AUTO-SELECT IN BOOKING FORM
-    // ========================================================================
-    // When a customer clicks on any vehicle card (e.g. Innova Crysta, Ertiga):
-    // 1. It automatically picks that vehicle in the booking form dropdown.
-    // 2. Adds a glowing highlight effect to the dropdown.
-    // 3. Smoothly scrolls down to the booking form.
-    // 4. Focuses the customer name field ready for typing.
-    // 5. Shows a quick pop-up toast confirming the selection.
-    
     const vehicleCards = document.querySelectorAll('.vehicle-card');
     vehicleCards.forEach(card => {
         card.addEventListener('click', (e) => {
             const vehicleName = card.getAttribute('data-vehicle-name');
             if (vehicleName && vehicleSelect) {
-                // Find matching option in the dropdown and select it
+                
                 let matched = false;
                 for (let i = 0; i < vehicleSelect.options.length; i++) {
                     if (vehicleSelect.options[i].value === vehicleName) {
@@ -131,11 +81,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
 
-                // Add a brief pulse animation to show the field was updated
                 vehicleSelect.classList.add('highlight-pulse');
                 setTimeout(() => vehicleSelect.classList.remove('highlight-pulse'), 1000);
 
-                // Smoothly scroll down to the booking form
                 const bookingCard = document.getElementById('booking-card');
                 if (bookingCard) {
                     bookingCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -143,19 +91,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (nameInput) nameInput.focus();
                 }
 
-                // Show notification toast at bottom of screen
                 showToast(`Selected ${vehicleName} for your booking!`);
             }
         });
     });
 
-    // ========================================================================
-    // SECTION 5: PHOTO GALLERY CAROUSEL & LIGHTBOX POPUP
-    // ========================================================================
-    // 1. Next button cycles the gallery photos by moving the first photo to the back.
-    // 2. Clicking any photo opens the full-size image in an interactive modal.
-    // 3. Clicking the close button (or dark backdrop) closes the modal.
-    
     const galleryTrack = document.getElementById('gallery-track');
     const galleryNextBtn = document.getElementById('gallery-next');
     const galleryCards = document.querySelectorAll('.gallery-card');
@@ -164,7 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalCaption = document.getElementById('modal-caption');
     const modalClose = document.getElementById('modal-close');
 
-    // Cycle photos horizontally when clicking next arrow
     if (galleryNextBtn && galleryTrack) {
         galleryNextBtn.addEventListener('click', () => {
             const firstCard = galleryTrack.firstElementChild;
@@ -174,7 +113,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Open clicked photo inside the full-screen lightbox modal
     galleryCards.forEach(card => {
         card.addEventListener('click', () => {
             const img = card.querySelector('.gallery-img');
@@ -188,14 +126,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Close lightbox modal when clicking the 'X' button
     if (modalClose && galleryModal) {
         modalClose.addEventListener('click', () => {
             galleryModal.classList.remove('show');
             galleryModal.setAttribute('aria-hidden', 'true');
         });
 
-        // Close lightbox modal when clicking anywhere outside the image box
         galleryModal.addEventListener('click', (e) => {
             if (e.target === galleryModal) {
                 galleryModal.classList.remove('show');
@@ -204,27 +140,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ========================================================================
-    // SECTION 6: BOOKING FORM SUBMISSION & EMAIL DISPATCH
-    // ========================================================================
-    // When the customer fills out the booking form and clicks "Submit":
-    // 1. Validates all required inputs (Name, Phone, Email, Pickup, Destination, Date, Vehicle).
-    // 2. Generates a unique Booking ID (e.g. BK-20261001-9X7B).
-    // 3. Saves the booking in browser localStorage so it appears in admin.html.
-    // 4. Sends email to the business owner (naminathtravels22@gmail.com).
-    // 5. Sends confirmation copy email to the customer.
-    // 6. Displays a green success banner and resets the form.
-    
     const bookingForm = document.getElementById('booking-form');
     const bookingAlert = document.getElementById('booking-alert');
     const submitBtn = document.getElementById('btn-submit-booking');
 
     if (bookingForm) {
         bookingForm.addEventListener('submit', async (e) => {
-            // Prevent page refresh on form submit
+            
             e.preventDefault();
 
-            // Collect and trim values from all form input fields
             const name = document.getElementById('name').value.trim();
             const mobile = document.getElementById('mobile').value.trim();
             const email = document.getElementById('email') ? document.getElementById('email').value.trim() : '';
@@ -233,25 +157,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const travelDate = document.getElementById('travel_date').value.trim();
             const vehicleType = document.getElementById('vehicle_type').value;
 
-            // Check if any mandatory field is missing
             if (!name || !mobile || !email || !pickup || !destination || !travelDate || !vehicleType) {
                 showAlert('Please fill in all required fields.', 'danger');
                 return;
             }
 
-            // Put submit button into loading state with spinning spinner icon
             const originalBtnContent = submitBtn.innerHTML;
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Sending Email...</span>';
 
-            // Generate unique Booking Reference ID (Example: BK-20261001-7F8K)
             const dateStr = new Date().toISOString().slice(0, 10).replace(/-/g, '');
             const randSuffix = Math.random().toString(36).substring(2, 6).toUpperCase();
             const bookingId = `BK-${dateStr}-${randSuffix}`;
             const message = document.getElementById('message') ? document.getElementById('message').value.trim() : '';
             const nowFormatted = new Date().toLocaleString();
 
-            // Build the complete booking data object
             const newBooking = {
                 id: bookingId,
                 name: name,
@@ -263,19 +183,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 vehicle_type: vehicleType,
                 message: message,
                 created_at: nowFormatted,
-                status: 'Pending' // Initial state is Pending review by admin
+                status: 'Pending' 
             };
 
-            // Save booking into browser localStorage so admin.html can see it immediately
             try {
                 const stored = JSON.parse(localStorage.getItem('safe_journeys_bookings')) || [];
-                stored.unshift(newBooking); // Put new booking at the very top of the list
+                stored.unshift(newBooking); 
                 localStorage.setItem('safe_journeys_bookings', JSON.stringify(stored));
             } catch (err) {
                 console.error('Local storage save error:', err);
             }
 
-            // Prepare formatted email message containing complete booking details
             const emailSubject = `New Booking Request [Pending Approval]: ${bookingId} - ${name} (${vehicleType})`;
             const emailBody = `======================================================\n` +
                 `NEW RIDE BOOKING INQUIRY - PENDING APPROVAL\n` +
@@ -304,13 +222,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 `itinerary email will automatically be sent to ${email}.\n` +
                 `======================================================`;
 
-            // ----------------------------------------------------------------
-            // DISPATCH METHOD 1: BREVO (SENDINBLUE) TRANSACTIONAL API
-            // ----------------------------------------------------------------
-            // Dispatches instant confirmation receipt to Customer and notification
-            // to Owner via the Brevo API endpoint.
             try {
-                // Rich branded customer receipt HTML
+                
                 const customerReceiptHtml = `
                     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.06);">
                         <div style="background: linear-gradient(135deg, #0b1e34 0%, #173256 100%); color: #ffffff; padding: 24px; text-align: center;">
@@ -350,7 +263,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 `;
 
-                // Send detailed acknowledgment email to Customer
                 fetch('/api/send-email', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -364,7 +276,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     })
                 }).catch(e => console.log('Brevo customer dispatch:', e));
 
-                // Send booking alert to Owner
                 fetch('/api/send-email', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -380,11 +291,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('Brevo auto-dispatch note:', err.message);
             }
 
-            // ----------------------------------------------------------------
-            // DISPATCH METHOD 2: EMAILJS API (If configured in admin settings)
-            // ----------------------------------------------------------------
-            // If the admin has saved EmailJS API keys, send email automatically
-            // to both customer and owner without any popups.
             try {
                 const storedCfg = JSON.parse(localStorage.getItem('safe_journeys_email_config') || '{}');
                 const emailjsPublic = storedCfg.emailjsPublic || '';
@@ -394,7 +300,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (emailjsPublic && emailjsService && emailjsTemplate && typeof emailjs !== 'undefined') {
                     emailjs.init(emailjsPublic.trim());
 
-                    // Send email notification to Customer
                     emailjs.send(emailjsService.trim(), emailjsTemplate.trim(), {
                         to_email: email,
                         to_name: name,
@@ -409,7 +314,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         reply_to: OWNER_EMAIL
                     }).catch(e => console.log('EmailJS customer dispatch:', e));
 
-                    // Send email notification to Agency Owner
                     emailjs.send(emailjsService.trim(), emailjsTemplate.trim(), {
                         to_email: OWNER_EMAIL,
                         to_name: 'Safe Journeys Admin',
@@ -428,13 +332,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('EmailJS auto-dispatch note:', err.message);
             }
 
-            // ----------------------------------------------------------------
-            // DISPATCH METHOD B: FORMSUBMIT AJAX API
-            // ----------------------------------------------------------------
-            // Dispatches formatted emails directly to the owner and CCs the customer.
-            // Includes all 8 booking fields in a clean tabular email layout.
             try {
-                // Send notification to Owner (with customer CC'd)
+                
                 fetch('https://formsubmit.co/ajax/' + encodeURIComponent(OWNER_EMAIL), {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
@@ -458,7 +357,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     })
                 }).catch(e => console.log('FormSubmit owner dispatch:', e));
 
-                // Send confirmation copy directly to Customer inbox
                 fetch('https://formsubmit.co/ajax/' + encodeURIComponent(email), {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
@@ -485,7 +383,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('Background mail service note:', err.message);
             }
 
-            // Display friendly success alert banner to the customer
             showAlert(`
                 <strong><i class="fa-solid fa-circle-check" style="color: #16a34a;"></i> Booking Request Received! (${bookingId})</strong><br>
                 Thank you, <strong>${name}</strong>! Your ride request has been registered successfully.<br>
@@ -494,10 +391,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 </small>
             `, 'success');
 
-            // Show confirmation toast popup at the bottom of screen
             showToast(`Booking ${bookingId} submitted - Pending Approval`);
 
-            // Pop up the interactive booking receipt modal showing full trip summary
             showBookingReceiptModal({
                 id: bookingId,
                 name: name,
@@ -511,25 +406,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 created_at: nowFormatted
             });
 
-            // Clear the form fields after successful submission
             bookingForm.reset();
 
-            // Reset travel date input back to today's date
             const dateInput = document.getElementById('travel_date');
             if (dateInput) {
                 dateInput.value = new Date().toISOString().split('T')[0];
             }
 
-            // Re-enable the submit button and restore original label
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalBtnContent;
         });
     }
 
-    // ========================================================================
-    // SECTION 7: ALERT BANNER HELPER FUNCTION
-    // ========================================================================
-    // Displays colored alert box (green for success, red for errors) above the form.
     function showAlert(htmlMsg, type) {
         if (!bookingAlert) return;
         bookingAlert.innerHTML = htmlMsg;
@@ -537,30 +425,22 @@ document.addEventListener('DOMContentLoaded', () => {
         bookingAlert.style.display = 'block';
     }
 
-    // ========================================================================
-    // SECTION 8: TOAST POPUP NOTIFICATION HELPER
-    // ========================================================================
-    // Displays a floating toast message at the bottom of the screen.
-    // It automatically disappears after 4.5 seconds or when clicking the 'X'.
     const toast = document.getElementById('booking-toast');
     const toastMessage = document.getElementById('toast-message');
     const toastClose = document.getElementById('toast-close');
     let toastTimeout = null;
 
-    // Global function to show toast anywhere on the page
     window.showToast = function (msg) {
         if (!toast || !toastMessage) return;
         toastMessage.textContent = msg;
         toast.classList.add('show');
 
-        // Automatically hide toast after 4.5 seconds
         if (toastTimeout) clearTimeout(toastTimeout);
         toastTimeout = setTimeout(() => {
             toast.classList.remove('show');
         }, 4500);
     };
 
-    // Close toast immediately when clicking the close 'X' button
     if (toastClose && toast) {
         toastClose.addEventListener('click', () => {
             toast.classList.remove('show');
@@ -568,10 +448,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ========================================================================
-    // SECTION 9: CUSTOMER BOOKING RECEIPT & SUMMARY MODAL
-    // ========================================================================
-    // Displays all details of what the customer booked immediately on submit
     function showBookingReceiptModal(data) {
         const modal = document.getElementById('booking-receipt-modal');
         if (!modal) return;
@@ -640,14 +516,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Close modal on escape key
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             window.closeBookingReceiptModal();
         }
     });
 
-    // Close modal when clicking the dark background overlay
     const receiptModal = document.getElementById('booking-receipt-modal');
     if (receiptModal) {
         receiptModal.addEventListener('click', (e) => {
@@ -657,5 +531,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
 

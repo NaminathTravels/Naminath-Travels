@@ -1,19 +1,10 @@
-// ==============================================================================
-// SAFE JOURNEYS HAPPY MEMORIES - PRODUCTION WEB & API SERVER (NODE.JS)
-// ==============================================================================
-// - Zero external dependencies (uses native Node.js standard library)
-// - Loads .env configuration automatically
-// - Serves static website files (index.html, admin.html, assets/)
-// - Provides /api/send-email endpoint powered by Brevo API
-// - Ready for deployment to Render, Railway, Heroku, AWS, DigitalOcean, or local
-// ==============================================================================
+
 
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
 
-// 1. Lightweight .env Parser
 function loadEnv() {
     const envPath = path.join(__dirname, '.env');
     if (fs.existsSync(envPath)) {
@@ -42,7 +33,6 @@ loadEnv();
 const PORT = parseInt(process.env.PORT || '8085', 10);
 const handler = require('./api/send-email');
 
-// Standard MIME type dictionary
 const MIME_TYPES = {
     '.html': 'text/html; charset=UTF-8',
     '.css': 'text/css; charset=UTF-8',
@@ -65,7 +55,6 @@ const server = http.createServer((req, res) => {
     const parsedUrl = url.parse(req.url, true);
     let pathname = decodeURIComponent(parsedUrl.pathname);
 
-    // API Route: Send Email via Brevo
     if (pathname === '/api/send-email' || pathname === '/api/send-email.js' || pathname === '/api/send-email.php') {
         let bodyChunks = [];
         req.on('data', chunk => bodyChunks.push(chunk));
@@ -76,7 +65,6 @@ const server = http.createServer((req, res) => {
         return;
     }
 
-    // API Route: Health Check
     if (pathname === '/api/health') {
         res.setHeader('Content-Type', 'application/json');
         res.writeHead(200);
@@ -89,12 +77,10 @@ const server = http.createServer((req, res) => {
         return;
     }
 
-    // Default to index.html for root path
     if (pathname === '/' || pathname === '') {
         pathname = '/index.html';
     }
 
-    // Security check: Prevent path traversal outside root
     const safePath = path.normalize(path.join(__dirname, pathname));
     if (!safePath.startsWith(__dirname)) {
         res.writeHead(403);
@@ -102,10 +88,9 @@ const server = http.createServer((req, res) => {
         return;
     }
 
-    // Check if requested file exists
     fs.stat(safePath, (err, stats) => {
         if (err || !stats.isFile()) {
-            // If user browsed directly to a folder, try serving index.html
+            
             const fallbackIndex = path.join(safePath, 'index.html');
             if (fs.existsSync(fallbackIndex)) {
                 serveStaticFile(fallbackIndex, res);
@@ -124,11 +109,10 @@ function serveStaticFile(filePath, res) {
     const ext = path.extname(filePath).toLowerCase();
     const contentType = MIME_TYPES[ext] || 'application/octet-stream';
 
-    // Add caching headers for static assets (images, css, js)
     const isAsset = filePath.includes(path.join(__dirname, 'assets'));
     const headers = { 'Content-Type': contentType };
     if (isAsset) {
-        headers['Cache-Control'] = 'public, max-age=86400'; // 1 day cache
+        headers['Cache-Control'] = 'public, max-age=86400'; 
     } else {
         headers['Cache-Control'] = 'no-cache';
     }

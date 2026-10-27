@@ -1,88 +1,46 @@
-/* ==========================================================================
-   SAFE JOURNEYS HAPPY MEMORIES - MAIN STYLESHEET
-   ==========================================================================
-   This stylesheet controls the visual presentation for both:
-   1. The Public Customer Website (index.html)
-   2. The Admin Booking Management Dashboard (admin.html)
 
-   TABLE OF CONTENTS:
-   --------------------------------------------------------------------------
-   1. CSS DESIGN TOKENS & VARIABLES (:root)
-      - Colors: Vibrant Sunset Orange (--primary), Deep Navy Blues (--navy)
-      - Typography: Modern Plus Jakarta Sans & Caveat Cursive Script
-      - Radiuses, Shadows, and Smooth Transitions
-   2. BROWSER RESET & BASE LAYOUT (html, body, container)
-   3. TYPOGRAPHY & SECTION HEADINGS (titles, tags, muted text)
-   4. BUTTON STYLES (primary gradient, dark outline, block buttons)
-   5. HEADER & STICKY NAVIGATION BAR (desktop menu & mobile toggle)
-   6. HERO SECTION & FLOATING BOOKING CARD
-   7. SERVICES GRID (6 responsive cards with circular icons)
-   8. VEHICLES FLEET SLIDER & TRUST BADGES
-   9. ABOUT US SECTION (story, counters & 4-point checklist)
-   10. PHOTO GALLERY CAROUSEL & LIGHTBOX MODAL
-   11. TESTIMONIALS & CUSTOMER REVIEWS
-   12. FOOTER (brand, contact icons, social links & copyright)
-   13. FLOATING MOBILE ACTIONS & TOAST NOTIFICATION
-   14. RESPONSIVE MEDIA QUERIES (Mobile, Tablet, Desktop)
-   15. ADMIN DASHBOARD STYLES (tables, badges, modal dialogs)
-   ========================================================================== */
 
-/* --------------------------------------------------------------------------
-   1. CSS DESIGN TOKENS & VARIABLES
-   Change colors or fonts here to update the entire website automatically!
-   -------------------------------------------------------------------------- */
 :root {
-    /* Primary Accent Colors (Vibrant Sunset Orange used for buttons and badges) */
+    
     --primary: #f97316;
     --primary-hover: #ea580c;
     --primary-light: #fff7ed;
     --primary-gradient: linear-gradient(135deg, #fb923c 0%, #f97316 50%, #ea580c 100%);
 
-    /* Deep Navy Background Shades (Used for Header, Hero & Footer backgrounds) */
     --navy-darkest: #071524;
     --navy-dark: #0b1e34;
     --navy-surface: #0e2744;
     --navy-card: #123053;
     --navy-border: rgba(255, 255, 255, 0.12);
 
-    /* Text Colors */
     --text-white: #ffffff;
     --text-heading: #0f172a;
     --text-body: #475569;
     --text-muted: #64748b;
     --text-light-muted: #94a3b8;
 
-    /* Light Theme Backgrounds & Borders */
     --bg-white: #ffffff;
     --bg-light: #f8fafc;
     --bg-card: #ffffff;
     --border-color: #e2e8f0;
     --border-input: #cbd5e1;
 
-    /* Font Families */
     --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     --font-script: 'Caveat', cursive, sans-serif;
 
-    /* Corner Border Radiuses */
     --radius-sm: 6px;
     --radius-md: 10px;
     --radius-lg: 16px;
     --radius-full: 9999px;
 
-    /* Drop Shadows for Elevation */
     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
     --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.08);
     --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.12);
     --shadow-card: 0 20px 40px rgba(11, 30, 52, 0.15);
 
-    /* Smooth Hover Animation Timing */
     --transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* --------------------------------------------------------------------------
-   2. BROWSER RESET & BASE STYLES
-   Ensures consistent layout across Chrome, Safari, Firefox, and Edge
-   -------------------------------------------------------------------------- */
 *,
 *::before,
 *::after {
@@ -139,9 +97,6 @@ textarea {
     padding: 4.5rem 0;
 }
 
-/* --------------------------------------------------------------------------
-   TYPOGRAPHY & UTILITIES
-   -------------------------------------------------------------------------- */
 .section-tag {
     display: inline-block;
     font-size: 0.8rem;
@@ -183,9 +138,6 @@ textarea {
     color: var(--text-light-muted) !important;
 }
 
-/* --------------------------------------------------------------------------
-   BUTTONS
-   -------------------------------------------------------------------------- */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -231,9 +183,6 @@ textarea {
     width: 100%;
 }
 
-/* --------------------------------------------------------------------------
-   HEADER & NAVIGATION
-   -------------------------------------------------------------------------- */
 .site-header {
     position: fixed;
     top: 0;
@@ -328,9 +277,6 @@ textarea {
     transition: var(--transition);
 }
 
-/* --------------------------------------------------------------------------
-   HERO SECTION & BOOKING FORM
-   -------------------------------------------------------------------------- */
 .hero-section {
     position: relative;
     min-height: 92vh;
@@ -416,7 +362,6 @@ textarea {
     font-size: 1rem;
 }
 
-/* Floating Booking Card */
 .hero-form-wrapper {
     display: flex;
     justify-content: flex-end;
@@ -594,9 +539,6 @@ textarea.form-control {
     font-size: 0.95rem;
 }
 
-/* --------------------------------------------------------------------------
-   SERVICES SECTION
-   -------------------------------------------------------------------------- */
 .services-section {
     background-color: var(--bg-white);
 }
@@ -652,9 +594,6 @@ textarea.form-control {
     line-height: 1.4;
 }
 
-/* --------------------------------------------------------------------------
-   VEHICLES SECTION
-   -------------------------------------------------------------------------- */
 .vehicles-section {
     background-color: var(--navy-dark);
     position: relative;
@@ -703,7 +642,6 @@ textarea.form-control {
     color: #94a3b8;
 }
 
-/* Vehicles Carousel */
 .vehicles-slider-wrapper {
     position: relative;
     display: flex;
@@ -828,9 +766,6 @@ textarea.form-control {
     color: #ffffff;
 }
 
-/* --------------------------------------------------------------------------
-   ABOUT US SECTION
-   -------------------------------------------------------------------------- */
 .about-section {
     background-color: var(--bg-white);
 }
@@ -917,9 +852,6 @@ textarea.form-control {
     color: var(--text-heading);
 }
 
-/* --------------------------------------------------------------------------
-   GALLERY SECTION
-   -------------------------------------------------------------------------- */
 .gallery-section {
     position: relative;
     background-color: var(--navy-dark);
@@ -1031,7 +963,6 @@ textarea.form-control {
     transform: scale(1.1);
 }
 
-/* Lightbox Modal */
 .gallery-modal {
     position: fixed;
     inset: 0;
@@ -1084,9 +1015,6 @@ textarea.form-control {
     font-weight: 600;
 }
 
-/* --------------------------------------------------------------------------
-   TESTIMONIALS SECTION
-   -------------------------------------------------------------------------- */
 .testimonials-section {
     background-color: var(--bg-light);
 }
@@ -1157,9 +1085,6 @@ textarea.form-control {
     font-style: italic;
 }
 
-/* --------------------------------------------------------------------------
-   FOOTER SECTION
-   -------------------------------------------------------------------------- */
 .site-footer {
     background-color: var(--navy-dark);
     color: #cbd5e1;
@@ -1293,9 +1218,6 @@ textarea.form-control {
     letter-spacing: 0.05em;
 }
 
-/* --------------------------------------------------------------------------
-   FLOATING ACTION BUTTONS & TOAST NOTIFICATION
-   -------------------------------------------------------------------------- */
 .floating-contact-bar {
     position: fixed;
     bottom: 25px;
@@ -1331,7 +1253,6 @@ textarea.form-control {
     background-color: var(--primary);
 }
 
-/* Toast */
 .toast-notification {
     position: fixed;
     bottom: 30px;
@@ -1382,9 +1303,6 @@ textarea.form-control {
     color: #ffffff;
 }
 
-/* --------------------------------------------------------------------------
-   RESPONSIVE DESIGN (MEDIA QUERIES)
-   -------------------------------------------------------------------------- */
 @media (max-width: 1024px) {
     .hero-container {
         grid-template-columns: 1fr;
@@ -1822,9 +1740,6 @@ tr:hover {
     background: #e0f2fe;
 }
 
-/* --------------------------------------------------------------------------
-   ADMIN MODALS & EMAIL DISPATCH CONTROLS
-   -------------------------------------------------------------------------- */
 .btn-settings-nav {
     display: inline-flex;
     align-items: center;
@@ -2194,9 +2109,6 @@ tr:hover {
     margin-top: 0.3rem;
 }
 
-/* ==========================================================================
-   CUSTOMER BOOKING SUMMARY & RECEIPT MODAL
-   ========================================================================== */
 .booking-receipt-modal-overlay {
     position: fixed;
     inset: 0;
@@ -2510,7 +2422,6 @@ tr:hover {
     background: #ea580c;
 }
 
-/* Print view optimization for Receipt */
 @media print {
     body * {
         visibility: hidden;
@@ -2533,9 +2444,6 @@ tr:hover {
     }
 }
 
-/* ==========================================================================
-   ADMIN LOGIN SCREEN & AUTH CONTROLS
-   ========================================================================== */
 .admin-login-wrapper {
     min-height: 100vh;
     display: flex;
@@ -2649,9 +2557,6 @@ tr:hover {
     font-weight: 600;
 }
 
-/* ==========================================================================
-   REJECT ACTION & REJECTED STATUS STYLES
-   ========================================================================== */
 .badge-rejected {
     background: #fee2e2;
     color: #b91c1c;
