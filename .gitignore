@@ -22,3 +22,4 @@ temp.png
 .netlify
 dist/
 build/
+.env.example
