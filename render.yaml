@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: safe-journeys-taxi
+    runtime: node
+    plan: free
+    buildCommand: ""
+    startCommand: "node server.js"
+    envVars:
+      - key: NODE_VERSION
+        value: 18.20.0
+      - key: BREVO_API_KEY
+        sync: false
+      - key: OWNER_EMAIL
+        value: naminathtravels22@gmail.com

@@ -1,0 +1,22 @@
+{
+  "name": "safe-journeys-taxi-service",
+  "version": "1.0.0",
+  "description": "Safe Journeys Happy Memories - Taxi and Tour Travel Booking Platform with Automated Brevo Transactional Email System",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "taxi",
+    "travel",
+    "booking",
+    "brevo",
+    "sendinblue"
+  ],
+  "author": "Safe Journeys Happy Memories",
+  "license": "ISC",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

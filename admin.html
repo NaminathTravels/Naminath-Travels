@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Basic page metadata and browser tab title -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Management Dashboard - Safe Journeys Happy Memories</title>
+
+    <!-- Google Fonts for modern typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome icons for buttons, badges, and dashboard cards -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Main stylesheet shared between landing page and admin dashboard -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- EmailJS SDK: Enables automated background email dispatch directly from the browser -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+
+<body>
+    <!-- ======================================================================
+         ADMINISTRATOR LOGIN GATE
+         Admin MUST log in to review, approve, or reject customer ride bookings
+         ====================================================================== -->
+    <div id="admin-login-screen" class="admin-login-wrapper">
+        <div class="admin-login-card">
+            <div class="admin-login-brand">
+                <div class="admin-login-icon">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h2>Safe Journeys Admin</h2>
+                <p>Sign in with your administrative credentials to review, approve, or reject ride bookings.</p>
+            </div>
+
+            <!-- Login alert error message -->
+            <div id="login-error-alert" style="display: none; padding: 10px 14px; margin-bottom: 16px; border-radius: 8px; font-size: 0.85rem; background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; text-align: center;"></div>
+
+            <form id="admin-login-form" class="admin-login-form" onsubmit="handleAdminLogin(event)">
+                <div class="form-group-admin">
+                    <label for="login-username"><i class="fa-solid fa-user"></i> Username or Owner Email</label>
+                    <input type="text" id="login-username" placeholder="e.g. admin or naminathtravels22@gmail.com" required autocomplete="username">
+                </div>
+
+                <div class="form-group-admin">
+                    <label for="login-password"><i class="fa-solid fa-lock"></i> Password</label>
+                    <div style="position: relative;">
+                        <input type="password" id="login-password" placeholder="Enter password" required autocomplete="current-password" style="padding-right: 42px;">
+                        <button type="button" onclick="toggleLoginPassword()" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #64748b; cursor: pointer; padding: 4px;" aria-label="Toggle password visibility">
+                            <i id="login-eye-icon" class="fa-solid fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-login-submit" id="btn-login-submit">
+                    <i class="fa-solid fa-right-to-bracket"></i> Sign In to Dashboard
+                </button>
+            </form>
+
+            <div style="margin-top: 1.25rem; padding: 0.85rem 1rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 0.78rem; color: #64748b; text-align: center;">
+                <i class="fa-solid fa-circle-info" style="color: var(--primary);"></i> Default credentials: <strong>admin</strong> / <strong>admin123</strong>
+            </div>
+
+            <div style="text-align: center; margin-top: 1rem;">
+                <a href="index.html" style="font-size: 0.82rem; color: #0284c7; text-decoration: none; font-weight: 600;">
+                    &larr; Return to Public Website
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================================================================
+         AUTHENTICATED DASHBOARD APPLICATION
+         Visible ONLY after administrator logs in successfully
+         ====================================================================== -->
+    <div id="admin-dashboard-app" style="display: none;">
+        <!-- TOP NAVIGATION BAR -->
+        <header class="admin-header">
+            <h1><i class="fa-solid fa-van-shuttle" style="color: var(--primary);"></i> Travel Agency Dashboard</h1>
+            <div class="nav-links" style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+                <span class="admin-user-pill"><i class="fa-solid fa-user-shield"></i> <span id="admin-user-display">Admin</span></span>
+                <!-- Link to open the customer-facing website in a new tab -->
+                <a href="index.html" target="_blank" class="btn-settings-nav" style="text-decoration: none;">
+                    <i class="fa-solid fa-external-link"></i> Website
+                </a>
+                <!-- Admin Logout Button -->
+                <button class="btn-logout" onclick="adminLogout()" title="Log out from dashboard">
+                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                </button>
+            </div>
+        </header>
+
+        <div class="container">
+            <!-- Floating notification alert box -->
+            <div id="admin-alert" style="display: none; padding: 14px 20px; margin-bottom: 20px; border-radius: 8px; font-size: 0.92rem; background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; box-shadow: 0 2px 8px rgba(0,0,0,0.04);"></div>
+
+            <!-- STATISTICS CARDS (TOTAL, PENDING, CONFIRMED, REJECTED) -->
+            <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                <!-- Card 1: Total all-time bookings -->
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #e0f2fe; color: #0284c7;">
+                        <i class="fa-solid fa-clipboard-list"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="stat-total">0</h3>
+                        <p>Total Bookings</p>
+                    </div>
+                </div>
+
+                <!-- Card 2: Bookings waiting for admin approval -->
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #fef3c7; color: #b45309;">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="stat-pending">0</h3>
+                        <p>Pending Review</p>
+                    </div>
+                </div>
+
+                <!-- Card 3: Bookings approved with confirmation emails sent -->
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #dcfce7; color: #15803d;">
+                        <i class="fa-solid fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="stat-confirmed">0</h3>
+                        <p>Confirmed Rides</p>
+                    </div>
+                </div>
+
+                <!-- Card 4: Bookings rejected -->
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #fee2e2; color: #dc2626;">
+                        <i class="fa-solid fa-circle-xmark"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="stat-rejected">0</h3>
+                        <p>Rejected Requests</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOOKINGS DATA TABLE CARD -->
+            <div class="table-card">
+                <div class="table-header">
+                    <h2>Booking Inquiries &amp; Approvals</h2>
+                    <!-- Filter tabs to quickly switch between All, Pending, Confirmed, and Rejected -->
+                    <div class="filter-buttons">
+                        <button class="filter-btn active" onclick="setFilter('all')">All (<span id="count-all">0</span>)</button>
+                        <button class="filter-btn" onclick="setFilter('Pending')">Pending (<span id="count-pending-tab">0</span>)</button>
+                        <button class="filter-btn" onclick="setFilter('Confirmed')">Confirmed (<span id="count-confirmed-tab">0</span>)</button>
+                        <button class="filter-btn" onclick="setFilter('Rejected')">Rejected (<span id="count-rejected-tab">0</span>)</button>
+                    </div>
+                </div>
+
+            <!-- Scrollable table container for desktop and mobile screens -->
+            <div style="overflow-x: auto;">
+                <table id="bookings-table">
+                    <thead>
+                        <tr>
+                            <th>Booking ID</th>
+                            <th>Customer</th>
+                            <th>Route</th>
+                            <th>Date</th>
+                            <th>Vehicle</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookings-body">
+                        <!-- Dynamically filled with rows by JavaScript from browser localStorage -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Empty state message displayed when no bookings match the selected filter -->
+            <div id="empty-state" class="empty-state" style="display: none;">
+                <i class="fa-regular fa-folder-open" style="font-size: 2.5rem; margin-bottom: 1rem; color: #cbd5e1; display: block;"></i>
+                <p>No booking requests found in this category.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ======================================================================
+         MODAL 1: APPROVAL & EMAIL DISPATCH TO CUSTOMER
+         Opens when admin clicks "Preview" or wants to send/resend confirmation
+         ====================================================================== -->
+    <div id="approval-modal" class="admin-modal-overlay">
+        <div class="admin-modal-box">
+            <!-- Modal header with title and close 'X' button -->
+            <div class="admin-modal-header">
+                <h3 id="modal-approval-title"><i class="fa-solid fa-paper-plane" style="color: var(--primary);"></i> Approve &amp; Send Confirmation Email</h3>
+                <button class="admin-modal-close" onclick="closeApprovalModal()">&times;</button>
+            </div>
+
+            <div class="admin-modal-body">
+                <!-- Summary card showing passenger name, phone, pickup, drop, and vehicle -->
+                <div class="booking-summary-pill" id="modal-summary-content">
+                    <!-- Populated dynamically with full trip details by JavaScript -->
+                </div>
+
+                <!-- Preview of the exact email that will be delivered to the customer -->
+                <div style="font-size: 0.85rem; font-weight: 700; color: var(--navy-dark); margin-bottom: 0.4rem;">
+                    <i class="fa-solid fa-envelope-open-text" style="color: var(--primary);"></i> Customer Confirmation Email Preview:
+                </div>
+                <div class="email-preview-container">
+                    <div class="email-preview-header">
+                        <div><strong>From:</strong> Safe Journeys Happy Memories &lt;<span id="preview-from">naminathtravels22@gmail.com</span>&gt;</div>
+                        <div><strong>To:</strong> <span id="preview-to" style="color: #0284c7; font-weight: 600;">customer@email.com</span></div>
+                        <div><strong>Subject:</strong> <span id="preview-subject" style="font-weight: 600;">Booking Approved &amp; Confirmed...</span></div>
+                    </div>
+                    <div class="email-preview-content" id="preview-body">
+                        <!-- Full itinerary text populated here -->
+                    </div>
+                </div>
+
+                <!-- Action buttons for sending the email -->
+                <div class="dispatch-methods-grid">
+                    <!-- Option 1: Automated Background Send via Brevo API (Direct 1-Click Approval) -->
+                    <button id="btn-action-brevo" class="btn-dispatch-brevo" onclick="dispatchViaBrevo()">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span id="label-brevo-btn">Approve Ride (Send Confirmation via Brevo)</span>
+                    </button>
+
+                    <!-- Option 2: Reject Booking & Notify Customer -->
+                    <button id="btn-action-reject" class="btn-dispatch-reject" onclick="openRejectFromApprovalModal()">
+                        <i class="fa-solid fa-ban"></i>
+                        <span>Reject Booking &amp; Notify Customer</span>
+                    </button>
+
+                    <!-- Option 3: 1-Click Send via Gmail (Opens Gmail tab pre-filled with customer email and itinerary) -->
+                    <button id="btn-action-gmail" class="btn-dispatch-gmail" onclick="dispatchViaGmail()">
+                        <i class="fa-brands fa-google"></i>
+                        <span>Send Approval via Gmail (Web)</span>
+                    </button>
+
+                    <!-- Option 4: Automated Background Send via EmailJS (If API keys configured in settings) -->
+                    <button id="btn-action-emailjs" class="btn-dispatch-emailjs" onclick="dispatchViaEmailJS()">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span id="label-emailjs-btn">Auto-Send via EmailJS</span>
+                    </button>
+
+                    <!-- Secondary options: Default Mail app, Copy text, or Approve without email -->
+                    <div style="display: flex; gap: 0.5rem; justify-content: space-between; flex-wrap: wrap; margin-top: 0.25rem;">
+                        <button class="btn-secondary-action" onclick="dispatchViaMailto()">
+                            <i class="fa-solid fa-envelope"></i> Open in Mail App
+                        </button>
+                        <button class="btn-secondary-action" onclick="copyEmailBody()">
+                            <i class="fa-solid fa-copy"></i> <span id="btn-copy-label">Copy Email Text</span>
+                        </button>
+                        <button class="btn-secondary-action" onclick="confirmApprovalOnly()" style="color: #15803d; border-color: #bbf7d0; background: #f0fdf4;">
+                            <i class="fa-solid fa-check"></i> Mark Approved Only
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Status message area during email sending -->
+                <div id="email-dispatch-status" style="margin-top: 0.85rem; font-size: 0.82rem; text-align: center; color: #64748b;"></div>
+            </div>
+
+            <!-- Modal footer with close button -->
+            <div class="admin-modal-footer">
+                <button class="btn-secondary-action" onclick="closeApprovalModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- ======================================================================
+         MODAL 3: REJECT BOOKING WITH REASON & NOTIFICATION
+         ====================================================================== -->
+    <div id="reject-modal" class="admin-modal-overlay">
+        <div class="admin-modal-box" style="max-width: 540px;">
+            <div class="admin-modal-header" style="border-bottom: 2px solid #fee2e2;">
+                <h3 style="color: #b91c1c;"><i class="fa-solid fa-ban"></i> Reject Ride Booking</h3>
+                <button class="admin-modal-close" onclick="closeRejectModal()">&times;</button>
+            </div>
+            <div class="admin-modal-body">
+                <div class="booking-summary-pill" id="reject-summary-content" style="background: #fef2f2; border-color: #fecaca; margin-bottom: 1rem;">
+                    <!-- Populated dynamically -->
+                </div>
+
+                <div class="form-group-admin" style="margin-bottom: 0.85rem;">
+                    <label for="reject-reason-select"><i class="fa-solid fa-clipboard-question"></i> Reason for Rejection</label>
+                    <select id="reject-reason-select" style="width: 100%; padding: 0.65rem 0.9rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.88rem; outline: none;" onchange="handleRejectReasonChange()">
+                        <option value="All vehicles fully booked for this travel date">All vehicles fully booked for this travel date</option>
+                        <option value="Requested route is outside our operational service area">Requested route is outside our operational service area</option>
+                        <option value="Driver unavailable for requested time slot">Driver unavailable for requested time slot</option>
+                        <option value="Duplicate or test booking submission">Duplicate or test booking submission</option>
+                        <option value="Customer requested cancellation by phone">Customer requested cancellation by phone</option>
+                        <option value="Custom">Other / Custom Reason...</option>
+                    </select>
+                </div>
+
+                <div class="form-group-admin" id="reject-custom-reason-box" style="display: none; margin-bottom: 0.85rem;">
+                    <label for="reject-custom-reason">Custom Explanation (Sent to Customer)</label>
+                    <textarea id="reject-custom-reason" rows="2" style="width: 100%; padding: 0.65rem 0.9rem; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.88rem; outline: none;" placeholder="Explain why the ride cannot be accommodated..."></textarea>
+                </div>
+
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem 1rem; font-size: 0.82rem; color: #475569; line-height: 1.45;">
+                    <i class="fa-solid fa-envelope" style="color: #dc2626; margin-right: 4px;"></i>
+                    A polite cancellation notice will be dispatched to the customer inbox with our helpline phone (<strong>+91 98765 43210</strong>) so they can reschedule.
+                </div>
+
+                <div id="reject-status-msg" style="margin-top: 0.75rem; font-size: 0.84rem; text-align: center;"></div>
+            </div>
+            <div class="admin-modal-footer">
+                <button type="button" class="btn-secondary-action" onclick="closeRejectModal()">Cancel</button>
+                <button type="button" class="btn-dispatch-reject" id="btn-confirm-reject" onclick="confirmRejectBooking()">
+                    <i class="fa-solid fa-ban"></i> Confirm Rejection &amp; Notify Customer
+                </button>
+            </div>
+        </div>
+    </div>
+    </div> <!-- /#admin-dashboard-app -->
+
+    <!-- ======================================================================
+         DASHBOARD JAVASCRIPT LOGIC
+         Controls bookings storage, approvals, email generation, and table UI
+         ====================================================================== -->
+    <script>
+        // Official agency owner email address
+        const DEFAULT_OWNER_EMAIL = 'naminathtravels22@gmail.com';
+
+        // Sample initial bookings used for instant demonstration if localStorage is empty
+        const SAMPLE_BOOKINGS = [
+            {
+                id: 'BK-20261001-9X7B',
+                name: 'Rajesh Sharma',
+                mobile: '+91 98251 23456',
+                email: 'rajesh.sharma.travel99@gmail.com',
+                pickup: 'Sihor, Gujarat',
+                destination: 'Ahmedabad Airport (AMD)',
+                travel_date: '2026-10-05',
+                vehicle_type: 'Toyota Innova Crysta',
+                message: 'Flight departure at 8:00 PM. Please send an experienced driver.',
+                created_at: 'Today at 02:15 PM',
+                status: 'Pending'
+            },
+            {
+                id: 'BK-20260929-3H8K',
+                name: 'Priya Patel',
+                mobile: '+91 94280 87654',
+                email: 'priya.patel.work@gmail.com',
+                pickup: 'Bhavnagar',
+                destination: 'Somnath Temple & Gir',
+                travel_date: '2026-10-12',
+                vehicle_type: 'Maruti Ertiga (7 Seater)',
+                message: 'Family vacation for 4 days.',
+                created_at: 'Yesterday at 11:30 AM',
+                status: 'Confirmed',
+                approved_at: 'Yesterday at 12:00 PM',
+                email_sent: true
+            }
+        ];
+
+        // Tracks the currently active filter ('all', 'Pending', 'Confirmed', or 'Rejected')
+        let currentFilter = 'all';
+
+        // Holds the booking object currently open inside the approval or reject modal
+        let activeModalBooking = null;
+        let activeRejectBooking = null;
+
+        // ====================================================================
+        // ADMIN AUTHENTICATION CONTROLLER
+        // ====================================================================
+        const ADMIN_CREDENTIALS = {
+            username: 'admin',
+            email: 'naminathtravels22@gmail.com',
+            password: 'admin123',
+            fallbackPassword: 'admin'
+        };
+
+        // Checks if administrator is currently authenticated
+        function checkAdminAuth() {
+            const isAuth = sessionStorage.getItem('safe_journeys_admin_logged_in') === 'true' ||
+                           localStorage.getItem('safe_journeys_admin_logged_in') === 'true';
+            const loginScreen = document.getElementById('admin-login-screen');
+            const dashboardApp = document.getElementById('admin-dashboard-app');
+
+            if (isAuth) {
+                if (loginScreen) loginScreen.style.display = 'none';
+                if (dashboardApp) dashboardApp.style.display = 'block';
+                renderTable();
+                updateConfigBadge();
+            } else {
+                if (loginScreen) loginScreen.style.display = 'flex';
+                if (dashboardApp) dashboardApp.style.display = 'none';
+            }
+        }
+
+        // Handles admin login form submission
+        function handleAdminLogin(e) {
+            if (e) e.preventDefault();
+            const usernameInput = document.getElementById('login-username') || document.getElementById('admin-login-username');
+            const passwordInput = document.getElementById('login-password') || document.getElementById('admin-login-password');
+            const rememberMe = document.getElementById('login-remember') || document.getElementById('admin-login-remember');
+            const errorBox = document.getElementById('login-error-alert') || document.getElementById('admin-login-error');
+
+            const u = (usernameInput ? usernameInput.value.trim() : '');
+            const p = (passwordInput ? passwordInput.value.trim() : '');
+
+            const isUserMatch = (u.toLowerCase() === ADMIN_CREDENTIALS.username.toLowerCase()) ||
+                                (u.toLowerCase() === ADMIN_CREDENTIALS.email.toLowerCase());
+            const isPassMatch = (p === ADMIN_CREDENTIALS.password) || (p === ADMIN_CREDENTIALS.fallbackPassword);
+
+            if (isUserMatch && isPassMatch) {
+                if (rememberMe && rememberMe.checked) {
+                    localStorage.setItem('safe_journeys_admin_logged_in', 'true');
+                } else {
+                    sessionStorage.setItem('safe_journeys_admin_logged_in', 'true');
+                }
+                if (errorBox) errorBox.style.display = 'none';
+                checkAdminAuth();
+            } else {
+                if (errorBox) {
+                    errorBox.textContent = 'Invalid administrator credentials. Please check username & password.';
+                    errorBox.style.display = 'block';
+                }
+            }
+        }
+
+        // Logs administrator out and returns to login gate
+        function adminLogout() {
+            sessionStorage.removeItem('safe_journeys_admin_logged_in');
+            localStorage.removeItem('safe_journeys_admin_logged_in');
+            checkAdminAuth();
+        }
+
+        // Toggles visibility of login password
+        function toggleLoginPassword() {
+            const passField = document.getElementById('login-password') || document.getElementById('admin-login-password');
+            const toggleIcon = document.getElementById('login-eye-icon') || document.getElementById('login-pass-toggle-icon');
+            if (!passField) return;
+            if (passField.type === 'password') {
+                passField.type = 'text';
+                if (toggleIcon) toggleIcon.className = 'fa-solid fa-eye-slash';
+            } else {
+                passField.type = 'password';
+                if (toggleIcon) toggleIcon.className = 'fa-solid fa-eye';
+            }
+        }
+
+        // ====================================================================
+        // HELPER FUNCTIONS: EMAIL CONFIGURATION STORAGE
+        // ====================================================================
+
+        // Reads saved EmailJS API credentials and owner email from browser localStorage
+        function getEmailConfig() {
+            try {
+                const stored = JSON.parse(localStorage.getItem('safe_journeys_email_config'));
+                if (stored) return stored;
+            } catch (e) {}
+
+            // Return default configuration if nothing is saved yet
+            return {
+                ownerEmail: DEFAULT_OWNER_EMAIL,
+                emailjsPublic: '',
+                emailjsService: '',
+                emailjsTemplate: ''
+            };
+        }
+
+        // Saves updated settings into localStorage and updates badge status
+        function saveEmailConfig(cfg) {
+            localStorage.setItem('safe_journeys_email_config', JSON.stringify(cfg));
+            updateConfigBadge();
+        }
+
+        // Updates the status badges in settings modal
+        function updateConfigBadge() {
+            const cfg = getEmailConfig();
+            
+            // Brevo badge update - Protected on Server (.env)
+            const brevoBadge = document.getElementById('badge-brevo-status');
+            if (brevoBadge) {
+                brevoBadge.textContent = 'Active & Secured in .env';
+                brevoBadge.style.background = '#dcfce7';
+                brevoBadge.style.color = '#15803d';
+            }
+
+            // EmailJS badge update
+            const badge = document.getElementById('badge-emailjs-status');
+            const isConfigured = cfg.emailjsPublic && cfg.emailjsService && cfg.emailjsTemplate;
+
+            if (badge) {
+                if (isConfigured) {
+                    badge.textContent = 'Connected (Active)';
+                    badge.style.background = '#dcfce7';
+                    badge.style.color = '#15803d';
+                } else {
+                    badge.textContent = 'Optional / Fallback';
+                    badge.style.background = '#f1f5f9';
+                    badge.style.color = '#64748b';
+                }
+            }
+
+            // Adjust button styling and label depending on whether API keys are present
+            const emailjsBtn = document.getElementById('btn-action-emailjs');
+            const emailjsLabel = document.getElementById('label-emailjs-btn');
+            if (emailjsBtn && emailjsLabel) {
+                if (isConfigured) {
+                    emailjsBtn.style.opacity = '1';
+                    emailjsLabel.textContent = 'Auto-Send via EmailJS (Instant API)';
+                } else {
+                    emailjsBtn.style.opacity = '0.85';
+                    emailjsLabel.textContent = 'Setup EmailJS for Silent Auto-Send';
+                }
+            }
+        }
+
+        // ====================================================================
+        // HELPER FUNCTIONS: BOOKINGS STORAGE & FILTERING
+        // ====================================================================
+
+        // Loads all bookings from localStorage. If empty, seeds sample demo bookings.
+        function getBookings() {
+            try {
+                const data = localStorage.getItem('safe_journeys_bookings');
+                if (!data) {
+                    // Seed initial sample bookings so the admin can test immediately
+                    localStorage.setItem('safe_journeys_bookings', JSON.stringify(SAMPLE_BOOKINGS));
+                    return SAMPLE_BOOKINGS;
+                }
+                return JSON.parse(data) || [];
+            } catch (e) {
+                return [];
+            }
+        }
+
+        // Saves the updated bookings array back to localStorage and re-renders the table
+        function saveBookings(bookings) {
+            localStorage.setItem('safe_journeys_bookings', JSON.stringify(bookings));
+            renderTable();
+        }
+
+        // Changes the active filter (All, Pending, Confirmed) and refreshes table view
+        function setFilter(filter) {
+            currentFilter = filter;
+            // Update active styling on the filter tab buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent.toLowerCase().includes(filter.toLowerCase()));
+            });
+            renderTable();
+        }
+
+        // Displays a temporary floating alert banner at the top of the admin page
+        function showAdminAlert(htmlMsg, type = 'success') {
+            const alertBox = document.getElementById('admin-alert');
+            if (!alertBox) return;
+            alertBox.innerHTML = htmlMsg;
+
+            // Apply green background for success or red for error
+            if (type === 'danger') {
+                alertBox.style.background = '#fee2e2';
+                alertBox.style.color = '#b91c1c';
+                alertBox.style.border = '1px solid #fecaca';
+            } else {
+                alertBox.style.background = '#dcfce7';
+                alertBox.style.color = '#15803d';
+                alertBox.style.border = '1px solid #bbf7d0';
+            }
+            alertBox.style.display = 'block';
+            alertBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+            // Automatically hide after 8 seconds
+            setTimeout(() => {
+                alertBox.style.display = 'none';
+            }, 8000);
+        }
+
+        // ====================================================================
+        // EMAIL BUILDER: GENERATES COMPLETE CUSTOMER ITINERARY
+        // ====================================================================
+        // Creates the professional confirmation email containing all details
+        // submitted by the customer on the booking form.
+        function generateCustomerEmail(b) {
+            const cfg = getEmailConfig();
+            const ownerEmail = cfg.ownerEmail || DEFAULT_OWNER_EMAIL;
+
+            // Formatted email subject line
+            const subject = `Ride Booking Confirmed: ${b.id} - ${b.vehicle_type} | Safe Journeys Happy Memories`;
+
+            // Complete email body text with all 8 booking fields
+            const body = `======================================================\n` +
+                `BOOKING CONFIRMATION & APPROVED TRIP ITINERARY\n` +
+                `Safe Journeys Happy Memories - Sihor, Gujarat\n` +
+                `======================================================\n\n` +
+                `Dear ${b.name},\n\n` +
+                `Great news! Your travel booking request with Safe Journeys Happy Memories has been APPROVED & CONFIRMED by our administration.\n\n` +
+                `Here are your full booking and trip details:\n\n` +
+                `------------------------------------------------------\n` +
+                `1. PASSENGER INFORMATION:\n` +
+                `------------------------------------------------------\n` +
+                `• Full Name           : ${b.name}\n` +
+                `• Contact Mobile      : ${b.mobile}\n` +
+                `• Contact Email       : ${b.email || 'Not provided'}\n\n` +
+                `------------------------------------------------------\n` +
+                `2. RIDE & TRAVEL DETAILS:\n` +
+                `------------------------------------------------------\n` +
+                `• Booking ID          : ${b.id}\n` +
+                `• Status              : CONFIRMED & APPROVED\n` +
+                `• Date of Travel      : ${b.travel_date}\n` +
+                `• Reserved Vehicle    : ${b.vehicle_type}\n` +
+                `• Pickup Location     : ${b.pickup}\n` +
+                `• Drop / Destination  : ${b.destination}\n` +
+                `• Special Request     : ${b.message ? b.message : 'Standard service'}\n` +
+                `• Registered At       : ${b.created_at || 'Recently'}\n\n` +
+                `------------------------------------------------------\n` +
+                `3. DRIVER & PICKUP INSTRUCTIONS:\n` +
+                `------------------------------------------------------\n` +
+                `• A clean, sanitized, and air-conditioned vehicle is reserved for your journey.\n` +
+                `• Our assigned professional driver will contact you at ${b.mobile} prior to departure with vehicle registration details.\n` +
+                `• Please ensure your phone is reachable on the travel date.\n\n` +
+                `------------------------------------------------------\n` +
+                `4. 24/7 SUPPORT & ASSISTANCE:\n` +
+                `------------------------------------------------------\n` +
+                `If you need any changes, urgent help, or have questions:\n` +
+                `📞 Phone / Support : +91 98765 43210\n` +
+                `✉️ Email           : ${ownerEmail}\n` +
+                `📍 Office Address  : Station Road, Sihor, Bhavnagar, Gujarat - 364240\n\n` +
+                `Thank you for choosing Safe Journeys Happy Memories!\n` +
+                `Wishing you a very safe journey and happy memories!`;
+
+            return { subject, body, ownerEmail };
+        }
+
+        // ====================================================================
+        // MODAL 1: OPEN APPROVAL & EMAIL PREVIEW MODAL
+        // ====================================================================
+        // Populates the modal with full trip information and opens it on screen.
+        function openApprovalModal(id, isResend = false) {
+            const bookings = getBookings();
+            const b = bookings.find(item => item.id === id);
+            if (!b) return;
+
+            activeModalBooking = b;
+            const emailData = generateCustomerEmail(b);
+
+            // Set modal title depending on whether this is a new approval or resend
+            const titleEl = document.getElementById('modal-approval-title');
+            if (titleEl) {
+                titleEl.innerHTML = isResend ?
+                    `<i class="fa-solid fa-paper-plane" style="color: var(--primary);"></i> Resend Confirmation Email: <strong>${b.id}</strong>` :
+                    `<i class="fa-solid fa-circle-check" style="color: #16a34a;"></i> Approve Booking &amp; Send Email: <strong>${b.id}</strong>`;
+            }
+
+            // Fill passenger and trip summary card inside the modal
+            const summaryEl = document.getElementById('modal-summary-content');
+            if (summaryEl) {
+                summaryEl.innerHTML = `
+                    <div class="booking-summary-item">
+                        <span>Passenger Name</span>
+                        <span>${b.name}</span>
+                    </div>
+                    <div class="booking-summary-item">
+                        <span>Phone / Mobile</span>
+                        <span>${b.mobile}</span>
+                    </div>
+                    <div class="booking-summary-item">
+                        <span>Email Address</span>
+                        <span style="color: #0284c7;">${b.email || 'None provided'}</span>
+                    </div>
+                    <div class="booking-summary-item">
+                        <span>Date of Travel</span>
+                        <span>${b.travel_date}</span>
+                    </div>
+                    <div class="booking-summary-item">
+                        <span>Pickup Location</span>
+                        <span>${b.pickup}</span>
+                    </div>
+                    <div class="booking-summary-item">
+                        <span>Destination</span>
+                        <span>${b.destination}</span>
+                    </div>
+                    <div class="booking-summary-item">
+                        <span>Vehicle Reserved</span>
+                        <span style="color: var(--primary); font-weight: 700;">${b.vehicle_type}</span>
+                    </div>
+                    <div class="booking-summary-item">
+                        <span>Special Instructions</span>
+                        <span style="font-style: italic;">${b.message || 'None'}</span>
+                    </div>
+                `;
+            }
+
+            // Populate preview fields (From, To, Subject, Body)
+            document.getElementById('preview-from').textContent = emailData.ownerEmail;
+            document.getElementById('preview-to').textContent = b.email || 'No email provided';
+            document.getElementById('preview-subject').textContent = emailData.subject;
+            document.getElementById('preview-body').textContent = emailData.body;
+
+            document.getElementById('email-dispatch-status').textContent = '';
+            updateConfigBadge();
+
+            // Display the modal
+            const modal = document.getElementById('approval-modal');
+            if (modal) modal.classList.add('active');
+        }
+
+        // Closes the approval modal and clears active selection
+        function closeApprovalModal() {
+            const modal = document.getElementById('approval-modal');
+            if (modal) modal.classList.remove('active');
+            activeModalBooking = null;
+        }
+
+        // ====================================================================
+        // EMAIL DISPATCH METHOD 1: BREVO (SENDINBLUE) TRANSACTIONAL API
+        // ====================================================================
+        // Automatically dispatches the confirmed itinerary email silently
+        // to the customer inbox via Brevo API without opening any popups.
+        async function dispatchViaBrevo() {
+            if (!activeModalBooking) return;
+            const b = activeModalBooking;
+            if (!b.email) {
+                alert('This customer has not provided an email address.');
+                return;
+            }
+
+            const statusEl = document.getElementById('email-dispatch-status');
+            const brevoBtn = document.getElementById('btn-action-brevo');
+            const originalBtnContent = brevoBtn ? brevoBtn.innerHTML : '';
+
+            // Show loading spinner
+            if (brevoBtn) {
+                brevoBtn.disabled = true;
+                brevoBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Dispatching via Brevo...';
+            }
+            if (statusEl) {
+                statusEl.innerHTML = '<span style="color: #0284c7;"><i class="fa-solid fa-spinner fa-spin"></i> Dispatching confirmation email to ' + b.email + '...</span>';
+            }
+
+            const { subject, body, ownerEmail } = generateCustomerEmail(b);
+
+            try {
+                const response = await fetch('/api/send-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        to: b.email,
+                        toName: b.name,
+                        subject: subject,
+                        textContent: body,
+                        replyTo: ownerEmail
+                    })
+                });
+
+                const result = await response.json();
+                if (!response.ok || !result.success) {
+                    throw new Error(result.error || 'Failed to dispatch email via Brevo');
+                }
+
+                // Update booking status to Confirmed
+                let bookings = getBookings();
+                bookings = bookings.map(item => {
+                    if (item.id === b.id) {
+                        item.status = 'Confirmed';
+                        item.approved_at = new Date().toLocaleString();
+                        item.email_sent = true;
+                        item.sent_via = 'Brevo API';
+                    }
+                    return item;
+                });
+                saveBookings(bookings);
+
+                closeApprovalModal();
+                showAdminAlert(`<i class="fa-solid fa-circle-check"></i> Booking <strong>${b.id}</strong> Approved! Official confirmation email dispatched directly to <strong>${b.email}</strong> via Brevo API.`);
+            } catch (err) {
+                console.error('Brevo Dispatch error:', err);
+                if (statusEl) {
+                    statusEl.innerHTML = `<span style="color: #dc2626;"><i class="fa-solid fa-circle-exclamation"></i> Notice: ${err.message}. You can use "Send Confirmation via Gmail" below.</span>`;
+                }
+                if (brevoBtn) {
+                    brevoBtn.disabled = false;
+                    brevoBtn.innerHTML = originalBtnContent;
+                }
+            }
+        }
+
+        // ====================================================================
+        // EMAIL DISPATCH METHOD 2: 1-CLICK DIRECT GMAIL COMPOSE
+        // ====================================================================
+        // Opens official Gmail in a new tab with customer email, subject, and
+        // complete trip itinerary pre-filled. Also marks booking as Confirmed.
+        function dispatchViaGmail() {
+            if (!activeModalBooking) return;
+            const b = activeModalBooking;
+            if (!b.email) {
+                alert('This customer has not provided an email address.');
+                return;
+            }
+
+            // Generate full email text
+            const { subject, body } = generateCustomerEmail(b);
+
+            // Create direct Gmail web composer URL
+            const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(b.email)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+            // Mark booking as Confirmed in localStorage
+            let bookings = getBookings();
+            bookings = bookings.map(item => {
+                if (item.id === b.id) {
+                    item.status = 'Confirmed';
+                    item.approved_at = new Date().toLocaleString();
+                    item.email_sent = true;
+                    item.sent_via = 'Gmail';
+                }
+                return item;
+            });
+            saveBookings(bookings);
+
+            // Open Gmail tab ready to hit Send
+            window.open(gmailUrl, '_blank');
+
+            closeApprovalModal();
+            showAdminAlert(`<i class="fa-solid fa-circle-check"></i> Booking <strong>${b.id}</strong> Approved! Gmail tab opened with the confirmation email pre-filled for <strong>${b.email}</strong>.`);
+        }
+
+        // ====================================================================
+        // EMAIL DISPATCH METHOD 2: AUTOMATED BACKGROUND API (EMAILJS)
+        // ====================================================================
+        // Sends the confirmation email silently in the background without
+        // opening any popups, if EmailJS credentials are configured.
+        async function dispatchViaEmailJS() {
+            if (!activeModalBooking) return;
+            const b = activeModalBooking;
+            if (!b.email) {
+                alert('This customer has not provided an email address.');
+                return;
+            }
+
+            const cfg = getEmailConfig();
+            // If API keys are missing, ask admin if they want to enter them
+            if (!cfg.emailjsPublic || !cfg.emailjsService || !cfg.emailjsTemplate) {
+                if (confirm('EmailJS is not configured yet. Would you like to enter your EmailJS API keys now for automated background sending?\n\n(Tip: You can also use the red "Send Confirmation via Gmail" button for instant 1-click sending without any API key!)')) {
+                    closeApprovalModal();
+                    openSettingsModal();
+                }
+                return;
+            }
+
+            const statusEl = document.getElementById('email-dispatch-status');
+            const emailjsBtn = document.getElementById('btn-action-emailjs');
+            const originalBtnContent = emailjsBtn ? emailjsBtn.innerHTML : '';
+
+            // Show loading spinner on button
+            if (emailjsBtn) {
+                emailjsBtn.disabled = true;
+                emailjsBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Dispatching via EmailJS...';
+            }
+            if (statusEl) statusEl.innerHTML = '<span style="color: #0284c7;"><i class="fa-solid fa-spinner fa-spin"></i> Sending confirmation email to ' + b.email + '...</span>';
+
+            const { subject, body, ownerEmail } = generateCustomerEmail(b);
+
+            try {
+                // Initialize EmailJS with public key and send email
+                if (typeof emailjs !== 'undefined') {
+                    emailjs.init(cfg.emailjsPublic.trim());
+                    await emailjs.send(cfg.emailjsService.trim(), cfg.emailjsTemplate.trim(), {
+                        to_email: b.email,
+                        to_name: b.name,
+                        booking_id: b.id,
+                        vehicle_type: b.vehicle_type,
+                        travel_date: b.travel_date,
+                        pickup: b.pickup,
+                        destination: b.destination,
+                        mobile: b.mobile,
+                        message: body,
+                        subject: subject,
+                        reply_to: ownerEmail
+                    });
+                } else {
+                    throw new Error('EmailJS SDK failed to load.');
+                }
+
+                // Update booking status to Confirmed
+                let bookings = getBookings();
+                bookings = bookings.map(item => {
+                    if (item.id === b.id) {
+                        item.status = 'Confirmed';
+                        item.approved_at = new Date().toLocaleString();
+                        item.email_sent = true;
+                        item.sent_via = 'EmailJS API';
+                    }
+                    return item;
+                });
+                saveBookings(bookings);
+
+                closeApprovalModal();
+                showAdminAlert(`<i class="fa-solid fa-circle-check"></i> Booking <strong>${b.id}</strong> Approved! Confirmation email has been dispatched directly to <strong>${b.email}</strong> via EmailJS API.`);
+            } catch (err) {
+                console.error('EmailJS Dispatch error:', err);
+                if (statusEl) {
+                    statusEl.innerHTML = `<span style="color: #dc2626;"><i class="fa-solid fa-circle-exclamation"></i> Error sending via EmailJS (${err.message || err.text}). Please verify keys or use "Send via Gmail" above.</span>`;
+                }
+                if (emailjsBtn) {
+                    emailjsBtn.disabled = false;
+                    emailjsBtn.innerHTML = originalBtnContent;
+                }
+            }
+        }
+
+        // ====================================================================
+        // EMAIL DISPATCH METHOD 3: DEFAULT MAIL APP (MAILTO)
+        // ====================================================================
+        // Opens the device's installed mail application (e.g. Outlook, Apple Mail)
+        function dispatchViaMailto() {
+            if (!activeModalBooking) return;
+            const b = activeModalBooking;
+            const { subject, body, ownerEmail } = generateCustomerEmail(b);
+
+            const mailtoUrl = `mailto:${encodeURIComponent(b.email)}?cc=${encodeURIComponent(ownerEmail)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+            // Mark booking as Confirmed
+            let bookings = getBookings();
+            bookings = bookings.map(item => {
+                if (item.id === b.id) {
+                    item.status = 'Confirmed';
+                    item.approved_at = new Date().toLocaleString();
+                    item.email_sent = true;
+                    item.sent_via = 'Mail App';
+                }
+                return item;
+            });
+            saveBookings(bookings);
+
+            window.location.href = mailtoUrl;
+            closeApprovalModal();
+            showAdminAlert(`<i class="fa-solid fa-circle-check"></i> Booking <strong>${b.id}</strong> Approved! Default mail client opened for <strong>${b.email}</strong>.`);
+        }
+
+        // ====================================================================
+        // HELPER: COPY EMAIL TEXT TO CLIPBOARD
+        // ====================================================================
+        // Copies the full itinerary text so it can be pasted into WhatsApp or SMS.
+        function copyEmailBody() {
+            if (!activeModalBooking) return;
+            const { subject, body } = generateCustomerEmail(activeModalBooking);
+            const fullText = `Subject: ${subject}\n\n${body}`;
+
+            navigator.clipboard.writeText(fullText).then(() => {
+                const label = document.getElementById('btn-copy-label');
+                if (label) {
+                    const original = label.textContent;
+                    label.textContent = 'Copied to Clipboard!';
+                    setTimeout(() => { label.textContent = original; }, 2500);
+                }
+            }).catch(err => {
+                alert('Could not copy automatically. You can highlight and copy the text directly from the preview.');
+            });
+        }
+
+        // ====================================================================
+        // HELPER: MARK CONFIRMED WITHOUT SENDING EMAIL
+        // ====================================================================
+        // Marks the ride as Confirmed if the customer was already contacted via phone.
+        function confirmApprovalOnly() {
+            if (!activeModalBooking) return;
+            const b = activeModalBooking;
+
+            let bookings = getBookings();
+            bookings = bookings.map(item => {
+                if (item.id === b.id) {
+                    item.status = 'Confirmed';
+                    item.approved_at = new Date().toLocaleString();
+                    item.email_sent = false;
+                    item.sent_via = 'Manual (No Email)';
+                }
+                return item;
+            });
+            saveBookings(bookings);
+            closeApprovalModal();
+            showAdminAlert(`<i class="fa-solid fa-circle-check"></i> Booking <strong>${b.id}</strong> marked as Confirmed.`);
+        }
+
+        // ====================================================================
+        // STATUS TOGGLE & RECORD DELETION
+        // ====================================================================
+
+        // Flips a booking status between 'Pending' and 'Confirmed'
+        function toggleStatus(id) {
+            let bookings = getBookings();
+            bookings = bookings.map(b => {
+                if (b.id === id) {
+                    b.status = b.status === 'Confirmed' ? 'Pending' : 'Confirmed';
+                }
+                return b;
+            });
+            saveBookings(bookings);
+        }
+
+        // Deletes a booking record permanently from localStorage after confirmation
+        function deleteBooking(id) {
+            if (confirm(`Delete booking record ${id}?`)) {
+                let bookings = getBookings().filter(b => b.id !== id);
+                saveBookings(bookings);
+                showAdminAlert(`Booking ${id} deleted.`);
+            }
+        }
+
+        // ====================================================================
+        // MODAL 2: SETTINGS MODAL HANDLERS
+        // ====================================================================
+
+
+
+        // ====================================================================
+        // 1-CLICK QUICK APPROVE BUTTON FROM TABLE
+        // ====================================================================
+        // 1-Click Approve and automatically send confirmation via Brevo API
+        function directApproveAndSendBrevo(id) {
+            let bookings = getBookings();
+            const b = bookings.find(item => item.id === id);
+            if (!b) return;
+            if (!b.email) {
+                alert('This customer has not provided an email address.');
+                return;
+            }
+            activeModalBooking = b;
+            dispatchViaBrevo();
+        }
+
+        // Directly marks booking Confirmed and opens Gmail compose with 1 click.
+        function directApproveAndSendGmail(id) {
+            let bookings = getBookings();
+            const b = bookings.find(item => item.id === id);
+            if (!b) return;
+            if (!b.email) {
+                alert('This customer has not provided an email address.');
+                return;
+            }
+            activeModalBooking = b;
+            dispatchViaGmail();
+        }
+
+        // ====================================================================
+        // BOOKING REJECTION WORKFLOW
+        // ====================================================================
+
+        // Toggles custom reason textarea when "Other / Custom Reason..." is selected
+        function handleRejectReasonChange() {
+            const sel = document.getElementById('reject-reason-select');
+            const customBox = document.getElementById('reject-custom-reason-box');
+            if (sel && customBox) {
+                customBox.style.display = sel.value === 'Custom' ? 'block' : 'none';
+            }
+        }
+
+        // Opens the rejection modal with booking details pre-filled
+        function openRejectModal(id) {
+            const bookings = getBookings();
+            const b = bookings.find(item => item.id === id);
+            if (!b) return;
+
+            activeRejectBooking = b;
+            const summaryEl = document.getElementById('reject-summary-content');
+            if (summaryEl) {
+                summaryEl.innerHTML = `
+                    <div style="font-weight: 600; color: #1e293b; margin-bottom: 4px;">
+                        <i class="fa-solid fa-triangle-exclamation" style="color: #dc2626;"></i> 
+                        Rejecting Booking: <strong>${b.id}</strong> &mdash; ${b.name}
+                    </div>
+                    <div style="font-size: 0.8rem; color: #64748b;">
+                        Route: <strong>${b.pickup} &rarr; ${b.destination}</strong> &bull; Date: <strong>${b.travel_date}</strong> &bull; Vehicle: <strong>${b.vehicle_type}</strong>
+                    </div>
+                `;
+            }
+
+            const sel = document.getElementById('reject-reason-select');
+            if (sel) sel.selectedIndex = 0;
+            const customBox = document.getElementById('reject-custom-reason-box');
+            if (customBox) customBox.style.display = 'none';
+            const customInput = document.getElementById('reject-custom-reason');
+            if (customInput) customInput.value = '';
+            const statusMsg = document.getElementById('reject-status-msg');
+            if (statusMsg) statusMsg.innerHTML = '';
+
+            const modal = document.getElementById('reject-modal');
+            if (modal) modal.classList.add('active');
+        }
+
+        // Closes the rejection modal
+        function closeRejectModal() {
+            const modal = document.getElementById('reject-modal');
+            if (modal) modal.classList.remove('active');
+            activeRejectBooking = null;
+        }
+
+        // Opens the rejection dialog directly from within the approval modal
+        function openRejectFromApprovalModal() {
+            if (!activeModalBooking) return;
+            const bookingId = activeModalBooking.id;
+            closeApprovalModal();
+            openRejectModal(bookingId);
+        }
+
+        // Confirms booking rejection and dispatches cancellation email to customer
+        async function confirmRejectBooking() {
+            if (!activeRejectBooking) return;
+            const b = activeRejectBooking;
+
+            const sel = document.getElementById('reject-reason-select');
+            let reason = sel ? sel.value : 'Operational constraints';
+            if (reason === 'Custom') {
+                const customInput = document.getElementById('reject-custom-reason');
+                reason = customInput && customInput.value.trim() ? customInput.value.trim() : 'Operational constraints';
+            }
+
+            const btn = document.getElementById('btn-confirm-reject');
+            const originalBtnHtml = btn ? btn.innerHTML : '';
+            const statusMsg = document.getElementById('reject-status-msg');
+
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing Rejection...';
+            }
+            if (statusMsg) {
+                statusMsg.innerHTML = '<span style="color: #dc2626;"><i class="fa-solid fa-spinner fa-spin"></i> Dispatching cancellation email to customer...</span>';
+            }
+
+            // Dispatch cancellation notice via server Brevo proxy if email is available
+            if (b.email) {
+                const cancellationSubject = `Booking Update: Ride Request ${b.id} (${b.travel_date}) - Safe Journeys`;
+                const cancellationBody = `Dear ${b.name},\n\n` +
+                    `Thank you for requesting a ride with Safe Journeys Happy Memories for ${b.travel_date} (${b.pickup} to ${b.destination}).\n\n` +
+                    `We regret to inform you that our dispatch administration is unable to accommodate booking #${b.id} due to the following reason:\n` +
+                    `"${reason}"\n\n` +
+                    `We apologize for any inconvenience this may cause. If you wish to reschedule or discuss alternative ride options, please reach out directly:\n\n` +
+                    `📞 Phone / WhatsApp: +91 98765 43210\n` +
+                    `✉️ Email: ${DEFAULT_OWNER_EMAIL}\n` +
+                    `📍 Address: Station Road, Sihor, Bhavnagar, Gujarat - 364240\n\n` +
+                    `Safe Journeys Happy Memories Dispatch Team`;
+
+                try {
+                    await fetch('/api/send-email', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            to: b.email,
+                            toName: b.name,
+                            subject: cancellationSubject,
+                            textContent: cancellationBody,
+                            replyTo: DEFAULT_OWNER_EMAIL
+                        })
+                    });
+                } catch (err) {
+                    console.warn('Could not dispatch cancellation email:', err);
+                }
+            }
+
+            // Update booking record in localStorage
+            let bookings = getBookings();
+            bookings = bookings.map(item => {
+                if (item.id === b.id) {
+                    item.status = 'Rejected';
+                    item.rejected_at = new Date().toLocaleString();
+                    item.rejection_reason = reason;
+                }
+                return item;
+            });
+            saveBookings(bookings);
+
+            closeRejectModal();
+            showAdminAlert(`<i class="fa-solid fa-circle-exclamation"></i> Booking <strong>${b.id}</strong> has been rejected (${reason}).`, 'danger');
+        }
+
+        // ====================================================================
+        // RENDER DASHBOARD TABLE & COUNTERS
+        // ====================================================================
+        // Reads all bookings from localStorage, applies active filter, and
+        // updates stats counters and HTML table rows dynamically.
+        function renderTable() {
+            const bookings = getBookings();
+            const total = bookings.length;
+            const pending = bookings.filter(b => (b.status || 'Pending') === 'Pending').length;
+            const confirmed = bookings.filter(b => b.status === 'Confirmed').length;
+            const rejected = bookings.filter(b => b.status === 'Rejected').length;
+
+            // Update top stats cards
+            const statTotal = document.getElementById('stat-total');
+            if (statTotal) statTotal.textContent = total;
+            const statPending = document.getElementById('stat-pending');
+            if (statPending) statPending.textContent = pending;
+            const statConfirmed = document.getElementById('stat-confirmed');
+            if (statConfirmed) statConfirmed.textContent = confirmed;
+            const statRejected = document.getElementById('stat-rejected');
+            if (statRejected) statRejected.textContent = rejected;
+
+            // Update filter tab badge counters
+            const countAll = document.getElementById('count-all');
+            if (countAll) countAll.textContent = total;
+            const countPending = document.getElementById('count-pending-tab');
+            if (countPending) countPending.textContent = pending;
+            const countConfirmed = document.getElementById('count-confirmed-tab');
+            if (countConfirmed) countConfirmed.textContent = confirmed;
+            const countRejected = document.getElementById('count-rejected-tab');
+            if (countRejected) countRejected.textContent = rejected;
+
+            // Filter bookings by selected tab
+            let filtered = bookings;
+            if (currentFilter !== 'all') {
+                filtered = bookings.filter(b => (b.status || 'Pending').toLowerCase() === currentFilter.toLowerCase());
+            }
+
+            const tbody = document.getElementById('bookings-body');
+            const emptyState = document.getElementById('empty-state');
+
+            // If no bookings match, display empty state illustration
+            if (filtered.length === 0) {
+                tbody.innerHTML = '';
+                if (emptyState) emptyState.style.display = 'block';
+                return;
+            }
+
+            if (emptyState) emptyState.style.display = 'none';
+
+            // Generate HTML table row for each booking
+            tbody.innerHTML = filtered.map(b => {
+                const status = b.status || 'Pending';
+                const isConfirmed = status === 'Confirmed';
+                const isRejected = status === 'Rejected';
+
+                let statusBadgeHtml = '';
+                if (isConfirmed) {
+                    statusBadgeHtml = `
+                        <span class="badge badge-confirmed">Confirmed</span>
+                        <small style="color: #15803d; font-size: 0.73rem; display: block; margin-top: 4px;">
+                            <i class="fa-solid fa-circle-check"></i> ${b.email_sent ? 'Email Sent' : 'Approved'}
+                            ${b.approved_at ? `<br><span style="color: #94a3b8;">${b.approved_at}</span>` : ''}
+                        </small>
+                    `;
+                } else if (isRejected) {
+                    statusBadgeHtml = `
+                        <span class="badge badge-rejected"><i class="fa-solid fa-ban"></i> Rejected</span>
+                        <small style="color: #dc2626; font-size: 0.73rem; display: block; margin-top: 4px;">
+                            <strong>Reason:</strong> ${b.rejection_reason || 'Unavailable'}
+                            ${b.rejected_at ? `<br><span style="color: #94a3b8;">${b.rejected_at}</span>` : ''}
+                        </small>
+                    `;
+                } else {
+                    statusBadgeHtml = `<span class="badge badge-pending">Pending Review</span>`;
+                }
+
+                return `
+                    <tr>
+                        <!-- Column 1: Booking ID & Timestamp -->
+                        <td>
+                            <strong>${b.id}</strong><br>
+                            <small style="color: #94a3b8;">${b.created_at || 'Just now'}</small>
+                        </td>
+
+                        <!-- Column 2: Customer Name, Phone, and Email -->
+                        <td>
+                            <strong>${b.name}</strong><br>
+                            <a href="tel:${b.mobile}" style="color: #64748b; text-decoration: none;"><i class="fa-solid fa-phone" style="font-size: 0.75rem;"></i> ${b.mobile}</a>
+                            ${b.email ? `<br><a href="mailto:${b.email}" style="font-size: 0.8rem; color: #0284c7; text-decoration: none;"><i class="fa-regular fa-envelope"></i> ${b.email}</a>` : '<br><small style="color: #94a3b8;">No email</small>'}
+                        </td>
+
+                        <!-- Column 3: Trip Route & Customer Notes -->
+                        <td>
+                            <div style="font-weight: 500;">${b.pickup} &rarr; ${b.destination}</div>
+                            ${b.message ? `<small style="color: #64748b; font-style: italic;">"${b.message}"</small>` : ''}
+                        </td>
+
+                        <!-- Column 4: Date of Travel -->
+                        <td>${b.travel_date}</td>
+
+                        <!-- Column 5: Selected Vehicle -->
+                        <td><span style="font-weight: 600; color: #1e293b;">${b.vehicle_type}</span></td>
+
+                        <!-- Column 6: Status Badge (Pending / Confirmed / Rejected) -->
+                        <td>${statusBadgeHtml}</td>
+
+                        <!-- Column 7: Action Buttons (Approve / Reject / Gmail / Preview / Revert / Delete) -->
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 0.35rem; flex-wrap: wrap;">
+                                ${!isConfirmed && !isRejected ? `
+                                    <!-- 1-Click Approve via Brevo API -->
+                                    <button onclick="directApproveAndSendBrevo('${b.id}')" class="btn-dispatch-brevo-table" title="Instant 1-Click Approve & Send Confirmation via Brevo">
+                                        <i class="fa-solid fa-paper-plane"></i> Approve
+                                    </button>
+                                    <!-- Reject button with modal -->
+                                    <button onclick="openRejectModal('${b.id}')" class="btn-dispatch-reject-table" title="Reject Booking with Reason">
+                                        <i class="fa-solid fa-ban"></i> Reject
+                                    </button>
+                                    <!-- 1-Click Approve and open pre-filled Gmail -->
+                                    <button onclick="directApproveAndSendGmail('${b.id}')" class="btn-dispatch-gmail-table" title="Approve & Open Gmail with Full Customer Itinerary">
+                                        <i class="fa-brands fa-google"></i> Gmail
+                                    </button>
+                                    <!-- Open modal to preview email and choose sending method -->
+                                    <button onclick="openApprovalModal('${b.id}')" class="btn-action" title="Preview Itinerary & Email Options" style="color: #0284c7; background: #f0f9ff; border: 1px solid #bae6fd; width: auto; padding: 0 0.5rem; gap: 0.25rem;">
+                                        <i class="fa-solid fa-eye"></i> Preview
+                                    </button>
+                                ` : isConfirmed ? `
+                                    <!-- Approved indicator badge -->
+                                    <span class="btn-approved-badge"><i class="fa-solid fa-check"></i> Approved</span>
+                                    <!-- Resend email via Gmail -->
+                                    <button onclick="directApproveAndSendGmail('${b.id}')" class="btn-resend" title="Resend Approval Confirmation via Gmail" style="color: #ea4335; border-color: #fecaca; background: #fef2f2;">
+                                        <i class="fa-brands fa-google"></i> Resend
+                                    </button>
+                                    <!-- Open modal for additional resend options -->
+                                    <button onclick="openApprovalModal('${b.id}', true)" class="btn-action" title="View Options & Resend" style="color: #0284c7; background: #f0f9ff; border: 1px solid #bae6fd;">
+                                        <i class="fa-solid fa-sliders"></i>
+                                    </button>
+                                    <!-- Revert booking back to Pending status -->
+                                    <button onclick="toggleStatus('${b.id}')" class="btn-action" title="Revert back to Pending" style="color: #64748b; background: none; border: 1px solid #e2e8f0;">
+                                        <i class="fa-solid fa-rotate-left"></i>
+                                    </button>
+                                ` : `
+                                    <!-- Rejected status buttons: Revert to pending & delete -->
+                                    <button onclick="toggleStatus('${b.id}')" class="btn-action" title="Revert back to Pending" style="color: #64748b; background: #f8fafc; border: 1px solid #cbd5e1; width: auto; padding: 0 0.5rem; gap: 0.25rem; font-size: 0.76rem;">
+                                        <i class="fa-solid fa-rotate-left"></i> Revert
+                                    </button>
+                                `}
+                                <!-- Delete booking record -->
+                                <button onclick="deleteBooking('${b.id}')" class="btn-action btn-delete" title="Delete record" style="background: #fef2f2;">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Close any active modal when clicking on the dark background overlay
+        window.addEventListener('click', (e) => {
+            const approvalModal = document.getElementById('approval-modal');
+            const rejectModal = document.getElementById('reject-modal');
+            if (e.target === approvalModal) closeApprovalModal();
+            if (e.target === rejectModal) closeRejectModal();
+        });
+
+        // Initialize authentication and gate access when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            checkAdminAuth();
+        });
+    </script>
+</body>
+
+</html>

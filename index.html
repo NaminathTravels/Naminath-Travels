@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Basic HTML document configuration & character encoding -->
+    <meta charset="UTF-8">
+    <!-- Responsive viewport setting: ensures proper scaling on smartphones, tablets & desktops -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Browser tab title -->
+    <title>Safe Journeys Happy Memories - Your Journey Our Responsibility | Taxi &amp; Tour Services</title>
+
+    <!-- ======================================================================
+         SEO & SOCIAL MEDIA SHARING (OPEN GRAPH)
+         Helps Google search indexing and previews on WhatsApp/Facebook
+         ====================================================================== -->
+    <meta name="description"
+        content="Reliable, comfortable and affordable travel services for your every journey — from local rides to outstation long trips. Sedan, SUV, Innova, Tempo Traveller & Luxury Bus.">
+    <meta name="keywords"
+        content="taxi service, car rental, outstation cab, tempo traveller, luxury bus, sihor gujarat, safe journeys, travel booking">
+    <meta property="og:title" content="Safe Journeys Happy Memories - Travel Safe Travel Happy">
+    <meta property="og:description"
+        content="Reliable, comfortable and affordable travel services for your every journey.">
+    <meta property="og:image" content="assets/images/hero-banner.png">
+    <meta property="og:type" content="website">
+
+    <!-- ======================================================================
+         EXTERNAL STYLES & FONTS
+         - Plus Jakarta Sans: Clean modern font for headings and paragraphs
+         - Caveat: Handwriting cursive script font for accent watermarks
+         - Font Awesome: Icon library for cars, phone, email, checkmarks, etc.
+         ====================================================================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome Icon Library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Main Stylesheet for colors, layout, buttons, and animations -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Browser tab icon (Favicon) -->
+    <link rel="icon" type="image/png" href="assets/images/logo.png">
+</head>
+
+<body id="page-top">
+
+    <!-- ======================================================================
+         SECTION 1: TOP HEADER & NAVIGATION BAR
+         Sticks to the top of the screen as you scroll.
+         Contains:
+         - Agency logo (links back to top)
+         - Desktop navigation links (Home, About, Services, Vehicles, Gallery, Reviews, Contact)
+         - "Book Now" header button
+         - Hamburger menu button for mobile phones
+         ====================================================================== -->
+    <header class="site-header" id="top-header">
+        <div class="header-container">
+            <!-- Brand Logo -->
+            <a href="#home" class="brand-logo" aria-label="Safe Journeys Homepage">
+                <img src="assets/images/logo.png" alt="Safe Journeys Happy Memories" class="logo-img">
+            </a>
+
+            <!-- Desktop Navigation Menu (automatically highlights current section as you scroll) -->
+            <nav class="main-navigation" id="main-nav" aria-label="Main Navigation">
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="#home" class="nav-link active">Home</a></li>
+                    <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+                    <li class="nav-item"><a href="#services" class="nav-link">Services</a></li>
+                    <li class="nav-item"><a href="#vehicles" class="nav-link">Vehicles</a></li>
+                    <li class="nav-item"><a href="#gallery" class="nav-link">Gallery</a></li>
+                    <li class="nav-item"><a href="#reviews" class="nav-link">Reviews</a></li>
+                    <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+
+            <!-- Quick Action Buttons in Header -->
+            <div class="header-actions">
+                <!-- Direct link to scroll down to the booking form -->
+                <a href="#booking-section" class="btn btn-primary btn-book-header">
+                    <i class="fa-solid fa-van-shuttle"></i>
+                    <span>Book Now</span>
+                </a>
+                <!-- Mobile Hamburger Toggle Button (3 horizontal bars, visible only on small screens) -->
+                <button class="mobile-toggle" id="mobile-menu-toggle" aria-label="Toggle navigation menu"
+                    aria-expanded="false">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <!-- ==================================================================
+             SECTION 2: HERO BANNER & INTERACTIVE BOOKING FORM
+             The first impression of the website:
+             - Left Side: Eye-catching title, slogan, and call-to-action buttons
+             - Right Side: Floating ride booking form where customers submit inquiries
+             ================================================================== -->
+        <section class="hero-section" id="home">
+            <!-- Background Image with dark gradient overlay for text readability -->
+            <div class="hero-background-wrapper">
+                <img src="assets/images/hero-banner.png" alt="Travel Safe Fleet" class="hero-bg-img">
+                <div class="hero-overlay"></div>
+            </div>
+
+            <div class="container hero-container">
+                <!-- Left Side: Hero Text & Call-To-Action -->
+                <div class="hero-content">
+                    <span class="hero-badge">TRAVEL WITH COMFORT &amp; SAFETY</span>
+                    <h1 class="hero-title">
+                        Naminath Travels<br>
+                        <span class="text-orange">By Shah Groups</span>
+                    </h1>
+                    <p class="hero-description">
+                        Reliable, comfortable and affordable travel services for your every journey &mdash; from local
+                        rides to long trips.
+                    </p>
+                    <div class="hero-cta-buttons">
+                        <!-- Scrolls smoothly to the booking card -->
+                        <a href="#booking-card" class="btn btn-primary btn-hero">
+                            <i class="fa-solid fa-van-shuttle"></i>
+                            <span>Book Your Ride</span>
+                        </a>
+                        <!-- Direct one-tap phone call link -->
+                        <a href="tel:919876543210" class="btn btn-dark btn-hero">
+                            <i class="fa-solid fa-phone"></i>
+                            <span>Call Now</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Side: Interactive Booking Form Card -->
+                <div class="hero-form-wrapper" id="booking-section">
+                    <div class="booking-card" id="booking-card">
+                        <!-- Card Header -->
+                        <div class="booking-card-header">
+                            <div class="card-icon">
+                                <i class="fa-solid fa-car-side"></i>
+                            </div>
+                            <div>
+                                <h2 class="card-title">Book Your Ride</h2>
+                                <p class="card-subtitle">Fill in the details and get a quick quote</p>
+                            </div>
+                        </div>
+
+                        <!-- Feedback Alert Box (Shows green on success or red on error after form submission) -->
+                        <div id="booking-alert" class="booking-alert" style="display: none;" role="alert"></div>
+
+                        <!-- Booking Form (Handled by assets/js/main.js via JavaScript) -->
+                        <form id="booking-form" class="booking-form" action="#" onsubmit="return false;" novalidate>
+
+                            <!-- Row 1: Full Name & Mobile Number -->
+                            <div class="form-grid-2">
+                                <!-- Passenger Full Name Input -->
+                                <div class="form-group">
+                                    <div class="input-icon-wrapper">
+                                        <i class="fa-regular fa-user input-icon"></i>
+                                        <input type="text" name="name" id="name" class="form-control"
+                                            placeholder="Your Name" required>
+                                    </div>
+                                </div>
+
+                                <!-- Contact Mobile Number Input -->
+                                <div class="form-group">
+                                    <div class="input-icon-wrapper">
+                                        <i class="fa-solid fa-phone input-icon"></i>
+                                        <input type="tel" name="mobile" id="mobile" class="form-control"
+                                            placeholder="Mobile Number" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Row 2: Email Address & Date of Travel -->
+                            <div class="form-grid-2">
+                                <!-- Customer Email Address (Crucial for receiving confirmed trip itinerary) -->
+                                <div class="form-group">
+                                    <div class="input-icon-wrapper">
+                                        <i class="fa-regular fa-envelope input-icon"></i>
+                                        <input type="email" name="email" id="email" class="form-control"
+                                            placeholder="Email Address" required>
+                                    </div>
+                                </div>
+
+                                <!-- Date of Travel Picker -->
+                                <div class="form-group">
+                                    <div class="input-icon-wrapper">
+                                        <i class="fa-regular fa-calendar-days input-icon"></i>
+                                        <input type="date" name="travel_date" id="travel_date" class="form-control"
+                                            required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Row 3: Pickup Location & Destination Drop -->
+                            <div class="form-grid-2">
+                                <!-- Pickup Starting Point -->
+                                <div class="form-group">
+                                    <div class="input-icon-wrapper">
+                                        <i class="fa-solid fa-location-dot input-icon"></i>
+                                        <input type="text" name="pickup" id="pickup" class="form-control"
+                                            placeholder="Pickup Location" required>
+                                    </div>
+                                </div>
+
+                                <!-- Destination Drop Point -->
+                                <div class="form-group">
+                                    <div class="input-icon-wrapper">
+                                        <i class="fa-solid fa-location-dot input-icon"></i>
+                                        <input type="text" name="destination" id="destination" class="form-control"
+                                            placeholder="Destination" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Row 4: Vehicle Type Dropdown Selection -->
+                            <div class="form-group">
+                                <div class="input-icon-wrapper">
+                                    <i class="fa-solid fa-car-side input-icon"></i>
+                                    <select name="vehicle_type" id="vehicle_type" class="form-control custom-select"
+                                        required>
+                                        <option value="" disabled selected>Vehicle Type</option>
+                                        <option value="Sedan (4 Seater)">Sedan (4 Seater)</option>
+                                        <option value="SUV (6–7 Seater)">SUV (6–7 Seater)</option>
+                                        <option value="Innova (7 Seater)">Innova (7 Seater)</option>
+                                        <option value="Tempo Traveller (12–16 Seater)">Tempo Traveller (12–16 Seater)
+                                        </option>
+                                        <option value="Luxury Bus (30–50 Seater)">Luxury Bus (30–50 Seater)</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Row 5: Optional Special Notes / Instructions -->
+                            <div class="form-group">
+                                <div class="input-icon-wrapper textarea-wrapper">
+                                    <i class="fa-regular fa-comment-dots input-icon textarea-icon"></i>
+                                    <textarea name="message" id="message" class="form-control" rows="2"
+                                        placeholder="Message (Optional)"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Form Submit Button: Triggers AJAX email dispatch in main.js -->
+                            <button type="submit" id="btn-submit-booking" class="btn btn-primary btn-block btn-submit">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                <span>Book A Ride</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================================================================
+             SECTION 3: SERVICES SECTION
+             Showcases the 6 core travel services offered by the agency:
+             1. Local Taxi (City & nearby rides)
+             2. Outstation (Long distance journeys)
+             3. Airport Pickup & Drop (Hassle-free airport transfers)
+             4. One Way Trip (Pay only for one direction)
+             5. Round Trip (Full round trip return journey)
+             6. Tour Packages (Multi-day vacation itineraries)
+             ================================================================== -->
+        <section class="services-section section-padding" id="services">
+            <div class="container">
+                <!-- Section Header -->
+                <div class="section-header text-left">
+                    <span class="section-tag">OUR SERVICES</span>
+                    <h2 class="section-title">Travel Services We Offer</h2>
+                    <p class="section-subtitle">
+                        Choose from a wide range of travel services designed to make your journey smooth, safe and
+                        memorable.
+                    </p>
+                </div>
+
+                <!-- 6 Service Cards Grid -->
+                <div class="services-grid">
+                    <!-- Service 1: Local Taxi -->
+                    <div class="service-card" data-service="local-taxi">
+                        <div class="service-icon-circle" style="background-color: #e0f2fe; color: #0284c7;">
+                            <i class="fa-solid fa-car"></i>
+                        </div>
+                        <h3 class="service-title">Local Taxi</h3>
+                        <p class="service-desc">Within City &amp; Nearby Areas</p>
+                    </div>
+
+                    <!-- Service 2: Outstation -->
+                    <div class="service-card" data-service="outstation">
+                        <div class="service-icon-circle" style="background-color: #d1fae5; color: #10b981;">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <h3 class="service-title">Outstation</h3>
+                        <p class="service-desc">Long Distance Travel</p>
+                    </div>
+
+                    <!-- Service 3: Airport Transfer -->
+                    <div class="service-card" data-service="airport-transfer">
+                        <div class="service-icon-circle" style="background-color: #dbeafe; color: #3b82f6;">
+                            <i class="fa-solid fa-plane"></i>
+                        </div>
+                        <h3 class="service-title">Airport Pickup &amp; Drop</h3>
+                        <p class="service-desc">Hassle Free Transfers</p>
+                    </div>
+
+                    <!-- Service 4: One Way Trip -->
+                    <div class="service-card" data-service="one-way">
+                        <div class="service-icon-circle" style="background-color: #ffedd5; color: #f97316;">
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                        <h3 class="service-title">One Way Trip</h3>
+                        <p class="service-desc">Flexible Travel Options</p>
+                    </div>
+
+                    <!-- Service 5: Round Trip -->
+                    <div class="service-card" data-service="round-trip">
+                        <div class="service-icon-circle" style="background-color: #fee2e2; color: #ef4444;">
+                            <i class="fa-solid fa-rotate"></i>
+                        </div>
+                        <h3 class="service-title">Round Trip</h3>
+                        <p class="service-desc">Return Journey</p>
+                    </div>
+
+                    <!-- Service 6: Tour Packages -->
+                    <div class="service-card" data-service="tour-packages">
+                        <div class="service-icon-circle" style="background-color: #ccfbf1; color: #14b8a6;">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                        </div>
+                        <h3 class="service-title">Tour Packages</h3>
+                        <p class="service-desc">Explore New Destinations</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================================================================
+             SECTION 4: VEHICLE FLEET & TRUST BADGES
+             Displays our full vehicle lineup in an interactive slider:
+             - Sedan (4 Seater)
+             - SUV (6-7 Seater)
+             - Innova (7 Seater)
+             - Tempo Traveller (12-16 Seater)
+             - Luxury Bus (30-50 Seater)
+             Clicking any vehicle card auto-fills the booking form!
+             ================================================================== -->
+        <section class="vehicles-section section-padding" id="vehicles">
+            <div class="container">
+                <!-- Vehicles Header with 3 Trust Badges -->
+                <div class="vehicles-header-row">
+                    <div class="vehicles-title-col">
+                        <span class="section-tag section-tag-orange">OUR VEHICLES</span>
+                        <h2 class="section-title text-white">Comfortable Vehicles for Every Journey</h2>
+                        <p class="section-subtitle text-light-muted">
+                            Well-maintained and clean vehicles with professional drivers.
+                        </p>
+                    </div>
+
+                    <!-- Trust Badges (Safety, Drivers, Support) -->
+                    <div class="trust-badges-wrapper">
+                        <!-- Badge 1: Safety -->
+                        <div class="trust-badge-item">
+                            <div class="trust-badge-icon">
+                                <i class="fa-solid fa-shield-halved"></i>
+                            </div>
+                            <div class="trust-badge-text">
+                                <h4>Safe &amp; Secure</h4>
+                                <p>Your Safety First</p>
+                            </div>
+                        </div>
+
+                        <!-- Badge 2: Professional Drivers -->
+                        <div class="trust-badge-item">
+                            <div class="trust-badge-icon">
+                                <i class="fa-solid fa-user-tie"></i>
+                            </div>
+                            <div class="trust-badge-text">
+                                <h4>Professional Drivers</h4>
+                                <p>Experienced &amp; Polite</p>
+                            </div>
+                        </div>
+
+                        <!-- Badge 3: 24/7 Support -->
+                        <div class="trust-badge-item">
+                            <div class="trust-badge-icon">
+                                <i class="fa-solid fa-headset"></i>
+                            </div>
+                            <div class="trust-badge-text">
+                                <h4>24/7 Support</h4>
+                                <p>Always Here for You</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vehicle Slider with Left & Right Arrow Navigation -->
+                <div class="vehicles-slider-wrapper">
+                    <!-- Left Arrow Button -->
+                    <button class="slider-btn prev-btn" id="vehicles-prev" aria-label="Previous Vehicle">
+                        <i class="fa-solid fa-chevron-left"></i>
+                    </button>
+
+                    <!-- Horizontal Scroll Container -->
+                    <div class="vehicles-track-container" id="vehicles-track-container">
+                        <div class="vehicles-track" id="vehicles-track">
+                            <!-- Vehicle 1: Sedan -->
+                            <div class="vehicle-card" data-vehicle-name="Sedan (4 Seater)">
+                                <div class="vehicle-image-box">
+                                    <img src="assets/images/sedan.png" alt="Sedan" class="vehicle-img" loading="lazy">
+                                </div>
+                                <div class="vehicle-card-body">
+                                    <h3 class="vehicle-name">Sedan</h3>
+                                    <p class="vehicle-capacity">(4 Seater)</p>
+                                    <button type="button" class="btn-select-vehicle" title="Book Sedan">
+                                        <i class="fa-solid fa-calendar-check"></i> Book Now
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Vehicle 2: SUV -->
+                            <div class="vehicle-card" data-vehicle-name="SUV (6–7 Seater)">
+                                <div class="vehicle-image-box">
+                                    <img src="assets/images/suv.png" alt="SUV" class="vehicle-img" loading="lazy">
+                                </div>
+                                <div class="vehicle-card-body">
+                                    <h3 class="vehicle-name">SUV</h3>
+                                    <p class="vehicle-capacity">(6–7 Seater)</p>
+                                    <button type="button" class="btn-select-vehicle" title="Book SUV">
+                                        <i class="fa-solid fa-calendar-check"></i> Book Now
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Vehicle 3: Toyota Innova -->
+                            <div class="vehicle-card" data-vehicle-name="Innova (7 Seater)">
+                                <div class="vehicle-image-box">
+                                    <img src="assets/images/innova.png" alt="Innova" class="vehicle-img" loading="lazy">
+                                </div>
+                                <div class="vehicle-card-body">
+                                    <h3 class="vehicle-name">Innova</h3>
+                                    <p class="vehicle-capacity">(7 Seater)</p>
+                                    <button type="button" class="btn-select-vehicle" title="Book Innova">
+                                        <i class="fa-solid fa-calendar-check"></i> Book Now
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Vehicle 4: Tempo Traveller -->
+                            <div class="vehicle-card" data-vehicle-name="Tempo Traveller (12–16 Seater)">
+                                <div class="vehicle-image-box">
+                                    <img src="assets/images/tempo-traveller.png" alt="Tempo Traveller"
+                                        class="vehicle-img" loading="lazy">
+                                </div>
+                                <div class="vehicle-card-body">
+                                    <h3 class="vehicle-name">Tempo Traveller</h3>
+                                    <p class="vehicle-capacity">(12–16 Seater)</p>
+                                    <button type="button" class="btn-select-vehicle" title="Book Tempo Traveller">
+                                        <i class="fa-solid fa-calendar-check"></i> Book Now
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Vehicle 5: Luxury Bus -->
+                            <div class="vehicle-card" data-vehicle-name="Luxury Bus (30–50 Seater)">
+                                <div class="vehicle-image-box">
+                                    <img src="assets/images/luxury-bus.png" alt="Luxury Bus" class="vehicle-img"
+                                        loading="lazy">
+                                </div>
+                                <div class="vehicle-card-body">
+                                    <h3 class="vehicle-name">Luxury Bus</h3>
+                                    <p class="vehicle-capacity">(30–50 Seater)</p>
+                                    <button type="button" class="btn-select-vehicle" title="Book Luxury Bus">
+                                        <i class="fa-solid fa-calendar-check"></i> Book Now
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Arrow Button -->
+                    <button class="slider-btn next-btn" id="vehicles-next" aria-label="Next Vehicle">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================================================================
+             SECTION 5: ABOUT US SECTION
+             Tells the story of the agency, customer trust statistics, and key benefits:
+             - Left: Airplane window visual illustration
+             - Right: Mission statement, experience counters, and checklist
+             ================================================================== -->
+        <section class="about-section section-padding" id="about">
+            <div class="container">
+                <div class="about-grid">
+                    <!-- Left Column: Scenic window visual illustration -->
+                    <div class="about-image-col">
+                        <div class="about-image-frame">
+                            <img src="assets/images/about-window.png" alt="Explore More with Safe Journeys"
+                                class="about-img" loading="lazy">
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Agency Story, Key Statistics & Benefit Checklist -->
+                    <div class="about-content-col">
+                        <span class="section-tag">ABOUT US</span>
+                        <h2 class="section-title">More Than Just a Ride</h2>
+                        <p class="about-desc">
+                            We are a trusted travel service provider, offering safe, comfortable and affordable
+                            transportation services. Our goal is to make your journey stress-free with well-maintained
+                            vehicles, experienced drivers and customer-centric service.
+                        </p>
+
+                        <!-- Statistics Row (Years, Customers, Reliability) -->
+                        <div class="about-stats-row">
+                            <!-- Stat 1: Years in business -->
+                            <div class="stat-item">
+                                <div class="stat-icon-wrap">
+                                    <i class="fa-solid fa-trophy"></i>
+                                </div>
+                                <div class="stat-text-wrap">
+                                    <div class="stat-number">5+</div>
+                                    <div class="stat-label">Years of Experience</div>
+                                </div>
+                            </div>
+
+                            <!-- Stat 2: Happy passengers served -->
+                            <div class="stat-item">
+                                <div class="stat-icon-wrap">
+                                    <i class="fa-solid fa-thumbs-up"></i>
+                                </div>
+                                <div class="stat-text-wrap">
+                                    <div class="stat-number">10K+</div>
+                                    <div class="stat-label">Happy Customers</div>
+                                </div>
+                            </div>
+
+                            <!-- Stat 3: Safety track record -->
+                            <div class="stat-item">
+                                <div class="stat-icon-wrap">
+                                    <i class="fa-solid fa-shield-heart"></i>
+                                </div>
+                                <div class="stat-text-wrap">
+                                    <div class="stat-number">100%</div>
+                                    <div class="stat-label">Safe &amp; Reliable</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 4 Features Checklist -->
+                        <div class="about-checklist-grid">
+                            <div class="checklist-item">
+                                <span class="check-icon">
+                                    <i class="fa-solid fa-circle-check"></i>
+                                </span>
+                                <span class="check-text">Clean &amp; Comfortable Vehicles</span>
+                            </div>
+
+                            <div class="checklist-item">
+                                <span class="check-icon">
+                                    <i class="fa-solid fa-circle-check"></i>
+                                </span>
+                                <span class="check-text">Experienced &amp; Verified Drivers</span>
+                            </div>
+
+                            <div class="checklist-item">
+                                <span class="check-icon">
+                                    <i class="fa-solid fa-circle-check"></i>
+                                </span>
+                                <span class="check-text">Transparent Pricing</span>
+                            </div>
+
+                            <div class="checklist-item">
+                                <span class="check-icon">
+                                    <i class="fa-solid fa-circle-check"></i>
+                                </span>
+                                <span class="check-text">Easy Booking Process</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================================================================
+             SECTION 6: PHOTO GALLERY & INTERACTIVE LIGHTBOX
+             Highlights picturesque trip destinations captured during journeys.
+             Clicking any photo opens a full-screen preview lightbox popup.
+             ================================================================== -->
+        <section class="gallery-section section-padding" id="gallery">
+            <div class="gallery-bg-overlay"></div>
+            <div class="container gallery-container">
+                <!-- Gallery Section Header -->
+                <div class="gallery-header">
+                    <span class="section-tag section-tag-orange">OUR GALLERY</span>
+                    <h2 class="section-title text-white">Moments From Our Journeys</h2>
+                    <p class="section-subtitle text-light-muted">
+                        Explore some of the beautiful moments captured during our travels.
+                    </p>
+                </div>
+
+                <!-- Gallery Carousel Cards Track -->
+                <div class="gallery-carousel-wrapper">
+                    <div class="gallery-track" id="gallery-track">
+                        <!-- Photo 1: Mountain Lake Journey -->
+                        <div class="gallery-card" data-index="0">
+                            <img src="assets/images/gallery-1.png" alt="Mountain Lake Journey" class="gallery-img"
+                                loading="lazy">
+                            <div class="gallery-overlay">
+                                <span class="gallery-view-btn"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
+                                <span class="gallery-caption">Mountain Lake Journey</span>
+                            </div>
+                        </div>
+
+                        <!-- Photo 2: Highway Scenic Drive -->
+                        <div class="gallery-card" data-index="1">
+                            <img src="assets/images/gallery-2.png" alt="Highway Scenic Drive" class="gallery-img"
+                                loading="lazy">
+                            <div class="gallery-overlay">
+                                <span class="gallery-view-btn"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
+                                <span class="gallery-caption">Highway Scenic Drive</span>
+                            </div>
+                        </div>
+
+                        <!-- Photo 3: Valley Road Trip -->
+                        <div class="gallery-card" data-index="2">
+                            <img src="assets/images/gallery-3.png" alt="Valley Road Trip" class="gallery-img"
+                                loading="lazy">
+                            <div class="gallery-overlay">
+                                <span class="gallery-view-btn"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
+                                <span class="gallery-caption">Valley Road Trip</span>
+                            </div>
+                        </div>
+
+                        <!-- Photo 4: Hill Viewpoint Tour -->
+                        <div class="gallery-card" data-index="3">
+                            <img src="assets/images/gallery-4.png" alt="Hill Viewpoint Tour" class="gallery-img"
+                                loading="lazy">
+                            <div class="gallery-overlay">
+                                <span class="gallery-view-btn"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
+                                <span class="gallery-caption">Hill Viewpoint Tour</span>
+                            </div>
+                        </div>
+
+                        <!-- Photo 5: Coastal Luxury Bus Trip -->
+                        <div class="gallery-card" data-index="4">
+                            <img src="assets/images/gallery-5.png" alt="Coastal Luxury Bus Trip" class="gallery-img"
+                                loading="lazy">
+                            <div class="gallery-overlay">
+                                <span class="gallery-view-btn"><i class="fa-solid fa-magnifying-glass-plus"></i></span>
+                                <span class="gallery-caption">Coastal Luxury Bus Trip</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Next Photo Carousel Arrow -->
+                    <button class="gallery-nav-btn next-btn" id="gallery-next" aria-label="Next Gallery Image">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lightbox Modal Popup (Shows full-sized image when clicking a photo) -->
+        <div class="gallery-modal" id="gallery-modal" aria-hidden="true" role="dialog">
+            <button class="modal-close" id="modal-close" aria-label="Close Preview">&times;</button>
+            <div class="modal-content">
+                <img src="" alt="" id="modal-img">
+                <p id="modal-caption"></p>
+            </div>
+        </div>
+
+        <!-- ==================================================================
+             SECTION 7: CUSTOMER REVIEWS & TESTIMONIALS
+             Builds customer trust by displaying genuine 5-star customer feedback:
+             - Rahul Sharma (Corporate local ride)
+             - Priya Patel (Tempo Traveller family vacation)
+             - Amit Desai (Outstation travel)
+             ================================================================== -->
+        <section class="testimonials-section section-padding" id="reviews">
+            <div class="container">
+                <div class="testimonials-wrapper">
+                    <!-- Left: Section Title -->
+                    <div class="testimonials-header-col">
+                        <span class="section-tag">WHAT OUR CLIENTS SAY</span>
+                        <h2 class="section-title">Happy Customers</h2>
+                        <p class="section-subtitle">
+                            We are proud to serve our customers and their kind words motivate us to do better every day.
+                        </p>
+                    </div>
+
+                    <!-- Right: Review Cards Grid -->
+                    <div class="testimonials-cards-grid">
+                        <!-- Review 1 -->
+                        <div class="testimonial-card">
+                            <div class="testimonial-user-row">
+                                <img src="assets/images/avatar-1.png" alt="Rahul Sharma" class="testimonial-avatar"
+                                    loading="lazy">
+                                <div class="testimonial-user-info">
+                                    <h4 class="testimonial-name">Rahul Sharma</h4>
+                                    <div class="star-rating" aria-label="5 stars rating">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="testimonial-comment">&ldquo;Excellent service! The driver was very polite and the
+                                vehicle was clean and comfortable. Highly recommended!&rdquo;</p>
+                        </div>
+
+                        <!-- Review 2 -->
+                        <div class="testimonial-card">
+                            <div class="testimonial-user-row">
+                                <img src="assets/images/avatar-2.png" alt="Priya Patel" class="testimonial-avatar"
+                                    loading="lazy">
+                                <div class="testimonial-user-info">
+                                    <h4 class="testimonial-name">Priya Patel</h4>
+                                    <div class="star-rating" aria-label="5 stars rating">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="testimonial-comment">&ldquo;Booked a tempo traveller for our family trip. It was a
+                                smooth and hassle-free experience. Thank you for the great service!&rdquo;</p>
+                        </div>
+
+                        <!-- Review 3 -->
+                        <div class="testimonial-card">
+                            <div class="testimonial-user-row">
+                                <img src="assets/images/avatar-3.png" alt="Amit Desai" class="testimonial-avatar"
+                                    loading="lazy">
+                                <div class="testimonial-user-info">
+                                    <h4 class="testimonial-name">Amit Desai</h4>
+                                    <div class="star-rating" aria-label="5 stars rating">
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                        <i class="fa-solid fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="testimonial-comment">&ldquo;Best travel service in town. Affordable rates and
+                                on-time pickup. Will definitely book again.&rdquo;</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ======================================================================
+         SECTION 8: SITE FOOTER
+         Contains official contact information, social links, and copyright:
+         - Phone: +91 98765 43210
+         - Official Owner Email: naminathtravels22@gmail.com
+         - Office Location: Sihor, Bhavnagar, Gujarat
+         - Social Channels: Facebook, Instagram, YouTube, Twitter
+         - Bottom navigation & copyright
+         ====================================================================== -->
+    <footer class="site-footer" id="contact">
+        <div class="container footer-container">
+            <!-- Top Footer: Brand, Contact Info & Socials -->
+            <div class="footer-top-row">
+                <!-- Brand Logo & Motto -->
+                <div class="footer-brand">
+                    <a href="#home" class="footer-logo">
+                        <img src="assets/images/logo.png" alt="Travel Safe Travel Happy" class="footer-logo-img">
+                    </a>
+                </div>
+
+                <!-- Contact Item 1: Phone Hotline -->
+                <div class="footer-contact-item">
+                    <div class="contact-icon-box">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <div class="contact-details">
+                        <a href="tel:919876543210" class="contact-main">+91 98765 43210</a>
+                        <span class="contact-sub">Call Us 24/7</span>
+                    </div>
+                </div>
+
+                <!-- Contact Item 2: Business Email Address -->
+                <div class="footer-contact-item">
+                    <div class="contact-icon-box">
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <div class="contact-details">
+                        <a href="mailto:naminathtravels22@gmail.com"
+                            class="contact-main">naminathtravels22@gmail.com</a>
+                        <span class="contact-sub">Email Us</span>
+                    </div>
+                </div>
+
+                <!-- Contact Item 3: Physical Office Address -->
+                <div class="footer-contact-item">
+                    <div class="contact-icon-box">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div class="contact-details">
+                        <span class="contact-main">Sihor, Gujarat</span>
+                        <span class="contact-sub">Our Location</span>
+                    </div>
+                </div>
+
+                <!-- Social Media Links (Facebook, Instagram, YouTube, Twitter) -->
+                <div class="footer-socials">
+                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="social-btn"
+                        aria-label="Facebook">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-btn"
+                        aria-label="Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="social-btn"
+                        aria-label="YouTube">
+                        <i class="fa-brands fa-youtube"></i>
+                    </a>
+                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="social-btn"
+                        aria-label="Twitter">
+                        <i class="fa-brands fa-x-twitter"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Divider Line -->
+            <div class="footer-divider"></div>
+
+            <!-- Bottom Footer: Navigation Links, Copyright & Watermark -->
+            <div class="footer-bottom-row">
+                <nav class="footer-nav" aria-label="Footer Navigation">
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#services">Services</a>
+                    <a href="#vehicles">Vehicles</a>
+                    <a href="#gallery">Gallery</a>
+                    <a href="#reviews">Reviews</a>
+                    <a href="#contact">Contact</a>
+                </nav>
+
+                <div class="footer-copyright">
+                    <p>&copy; 2025. All Rights Reserved.</p>
+                </div>
+
+                <!-- Handwriting Script Watermark -->
+                <div class="footer-script-tag">
+                    <img src="assets/images/travel-more-script.png" alt="Travel More See More" class="script-tag-img"
+                        onerror="this.outerHTML='<span class=\'script-text\'>Travel More See More</span>'">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ======================================================================
+         FLOATING MOBILE ACTION BAR
+         Sticks to the bottom right of mobile screens for quick 1-tap phone calls or email
+         ====================================================================== -->
+    <div class="floating-contact-bar">
+        <!-- Direct Email Button -->
+        <a href="mailto:naminathtravels22@gmail.com?subject=Ride%20Booking%20Inquiry%20-%20Safe%20Journeys"
+            class="float-btn btn-email" aria-label="Send Email Inquiry">
+            <i class="fa-solid fa-envelope"></i>
+        </a>
+        <!-- Direct Phone Call Button -->
+        <a href="tel:919876543210" class="float-btn btn-call" aria-label="Call Now">
+            <i class="fa-solid fa-phone"></i>
+        </a>
+    </div>
+
+    <!-- ======================================================================
+         CUSTOMER BOOKING SUMMARY & RECEIPT MODAL
+         Pops up immediately when a customer submits a ride booking request
+         Displays complete itinerary and information about what they booked
+         ====================================================================== -->
+    <div id="booking-receipt-modal" class="booking-receipt-modal-overlay" style="display: none;">
+        <div class="booking-receipt-card">
+            <!-- Modal Header -->
+            <div class="receipt-header">
+                <div class="receipt-badge-icon">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <h3>Ride Request Registered!</h3>
+                <p>Thank you for choosing Safe Journeys Happy Memories. Here is your trip booking summary.</p>
+                <button class="receipt-close-btn" onclick="closeBookingReceiptModal()" aria-label="Close receipt">&times;</button>
+            </div>
+
+            <!-- Receipt Body -->
+            <div class="receipt-body">
+                <div class="receipt-id-row">
+                    <div>
+                        <span class="receipt-sub">Booking Reference ID</span>
+                        <div class="receipt-id-val" id="receipt-booking-id">BK-20261026-XXXX</div>
+                    </div>
+                    <button type="button" class="receipt-copy-btn" onclick="copyReceiptBookingId()" id="btn-copy-receipt-id">
+                        <i class="fa-solid fa-copy"></i> <span>Copy ID</span>
+                    </button>
+                </div>
+
+                <div class="receipt-status-banner">
+                    <span class="status-indicator-dot"></span>
+                    <div>
+                        <strong>STATUS: PENDING ADMIN APPROVAL</strong>
+                        <p>Our fleet dispatch team has received your inquiry. We will contact you shortly to confirm driver and vehicle availability.</p>
+                    </div>
+                </div>
+
+                <!-- Structured booking details grid -->
+                <div class="receipt-grid">
+                    <div class="receipt-item">
+                        <span class="receipt-label"><i class="fa-solid fa-user"></i> Passenger Name</span>
+                        <span class="receipt-value" id="receipt-passenger-name">—</span>
+                    </div>
+                    <div class="receipt-item">
+                        <span class="receipt-label"><i class="fa-solid fa-phone"></i> Contact Mobile</span>
+                        <span class="receipt-value" id="receipt-passenger-phone">—</span>
+                    </div>
+                    <div class="receipt-item">
+                        <span class="receipt-label"><i class="fa-solid fa-envelope"></i> Email Address</span>
+                        <span class="receipt-value" id="receipt-passenger-email">—</span>
+                    </div>
+                    <div class="receipt-item">
+                        <span class="receipt-label"><i class="fa-solid fa-car"></i> Vehicle Reserved</span>
+                        <span class="receipt-value highlight-car" id="receipt-vehicle">—</span>
+                    </div>
+                    <div class="receipt-item">
+                        <span class="receipt-label"><i class="fa-solid fa-location-dot"></i> Pickup Location</span>
+                        <span class="receipt-value" id="receipt-pickup">—</span>
+                    </div>
+                    <div class="receipt-item">
+                        <span class="receipt-label"><i class="fa-solid fa-flag-checkered"></i> Destination</span>
+                        <span class="receipt-value" id="receipt-destination">—</span>
+                    </div>
+                    <div class="receipt-item">
+                        <span class="receipt-label"><i class="fa-solid fa-calendar-day"></i> Date of Travel</span>
+                        <span class="receipt-value" id="receipt-date">—</span>
+                    </div>
+                    <div class="receipt-item">
+                        <span class="receipt-label"><i class="fa-solid fa-clock"></i> Submission Time</span>
+                        <span class="receipt-value" id="receipt-time">—</span>
+                    </div>
+                </div>
+
+                <!-- Optional Special Requests -->
+                <div class="receipt-instructions-box" id="receipt-instructions-box" style="display: none;">
+                    <span class="receipt-label"><i class="fa-solid fa-comment-dots"></i> Special Instructions / Notes</span>
+                    <div class="receipt-instructions-text" id="receipt-instructions-text"></div>
+                </div>
+
+                <!-- Notice banner -->
+                <div class="receipt-notice">
+                    <i class="fa-solid fa-circle-info"></i>
+                    <div>
+                        A confirmation copy has been sent to your email (<strong id="receipt-notice-email"></strong>).
+                        Keep your <strong>Booking ID</strong> handy for fast support inquiries.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Footer / Actions -->
+            <div class="receipt-footer">
+                <button type="button" class="btn-receipt-action btn-receipt-print" onclick="window.print()">
+                    <i class="fa-solid fa-print"></i> Print Receipt
+                </button>
+                <a href="https://wa.me/919876543210" target="_blank" id="receipt-whatsapp-link" class="btn-receipt-action btn-receipt-wa">
+                    <i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp
+                </a>
+                <button type="button" class="btn-receipt-action btn-receipt-close" onclick="closeBookingReceiptModal()">
+                    <i class="fa-solid fa-check"></i> Done
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Toast Notification (Appears at bottom center when a vehicle or booking is chosen) -->
+    <div id="booking-toast" class="toast-notification" role="status" aria-live="polite">
+        <div class="toast-icon"><i class="fa-solid fa-circle-check"></i></div>
+        <div class="toast-message" id="toast-message">Booking request submitted!</div>
+        <button class="toast-close" id="toast-close" aria-label="Close notification">&times;</button>
+    </div>
+
+    <!-- EmailJS SDK: Enables silent background emails if configured in admin -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+    <!-- Main JavaScript Logic: Controls form submit, sliders, gallery modal, and mobile menu -->
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>
