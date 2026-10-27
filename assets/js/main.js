@@ -345,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <p style="font-size: 13px; color: #64748b; margin-top: 18px;">Emergency / Fast Support Helpline: <strong>+91 98765 43210</strong></p>
                         </div>
                         <div style="background: #f8fafc; padding: 14px 24px; border-top: 1px solid #e2e8f0; font-size: 12px; color: #94a3b8; text-align: center;">
-                            Naminath Travels &bull; Sihor, Bhavnagar, Gujarat
+                            Naminath Travels &bull; Ahmedabad, Gujarat
                         </div>
                     </div>
                 `;
@@ -657,4 +657,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
 
