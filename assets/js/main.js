@@ -255,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 Our administration team is reviewing your ride. Once approved, you will receive an official confirmation with driver assignment.
                             </div>
 
-                            <p style="font-size: 13px; color: #64748b; margin-top: 18px;">Emergency / Fast Support Helpline: <strong>+91 98765 43210</strong></p>
+                            <p style="font-size: 13px; color: #64748b; margin-top: 18px;">Emergency / Fast Support Helpline: <strong>+91 91065 19219</strong></p>
                         </div>
                         <div style="background: #f8fafc; padding: 14px 24px; border-top: 1px solid #e2e8f0; font-size: 12px; color: #94a3b8; text-align: center;">
                             Naminath Travels &bull; Ahmedabad, Gujarat
@@ -482,7 +482,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const waLink = document.getElementById('receipt-whatsapp-link');
         if (waLink) {
             const text = encodeURIComponent(`Hello Safe Journeys, I have submitted a booking (${data.id}) for ${data.vehicle_type} on ${data.travel_date}. Route: ${data.pickup} to ${data.destination}.`);
-            waLink.href = `https://wa.me/919876543210?text=${text}`;
+            waLink.href = `https://wa.me/919106519219?text=${text}`;
         }
 
         modal.style.display = 'flex';

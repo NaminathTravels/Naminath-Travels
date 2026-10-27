@@ -89,7 +89,7 @@ module.exports = async function handler(req, res) {
                     ${(textContent || '').replace(/\n/g, '<br>')}
                 </div>
                 <div style="margin-top: 28px; padding-top: 16px; border-top: 1px solid #e2e8f0; font-size: 12px; color: #94a3b8; text-align: center;">
-                    Naminath Travels &bull; Ahmedabad, Gujarat &bull; Support: +91 98765 43210
+                    Naminath Travels &bull; Ahmedabad, Gujarat &bull; Support: +91 91065 19219
                 </div>
             </div>
         `;
