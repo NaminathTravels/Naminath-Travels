@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: safe-journeys-taxi
+    name: naminath-travels
     runtime: node
     plan: free
     buildCommand: ""

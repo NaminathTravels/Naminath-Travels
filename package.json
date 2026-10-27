@@ -1,7 +1,7 @@
 {
-  "name": "safe-journeys-taxi-service",
+  "name": "naminath-travels",
   "version": "1.0.0",
-  "description": "Safe Journeys Happy Memories - Taxi and Tour Travel Booking Platform with Automated Brevo Transactional Email System",
+  "description": "Naminath Travels - Taxi and Tour Travel Booking Platform with Automated Brevo Transactional Email System",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
