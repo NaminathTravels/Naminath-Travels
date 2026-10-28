@@ -674,6 +674,7 @@ textarea.form-control {
     display: grid;
     grid-template-columns: repeat(5, minmax(210px, 1fr));
     gap: 1rem;
+    min-width: 0;
 }
 
 .slider-btn {
@@ -1346,7 +1347,7 @@ textarea.form-control {
     }
 
     .vehicles-track {
-        grid-template-columns: repeat(5, 220px);
+        grid-template-columns: repeat(5, 200px);
     }
 
     .about-grid {
@@ -1379,7 +1380,7 @@ textarea.form-control {
     }
 
     .btn-book-header {
-        display: none;
+        display: none !important;
     }
 
     .main-navigation {
@@ -1409,6 +1410,7 @@ textarea.form-control {
         min-height: auto;
         padding-top: 4.5rem;
         padding-bottom: 2rem;
+        overflow: hidden;
     }
 
     .hero-container {
@@ -1416,6 +1418,7 @@ textarea.form-control {
         gap: 2rem;
         padding-top: 1.5rem;
         padding-bottom: 2rem;
+        max-width: 100%;
     }
 
     .hero-content {
@@ -1431,6 +1434,7 @@ textarea.form-control {
         margin-left: auto;
         margin-right: auto;
         font-size: 0.95rem;
+        overflow-wrap: break-word;
     }
 
     .hero-cta-buttons {
@@ -1447,6 +1451,7 @@ textarea.form-control {
     .booking-card {
         padding: 1.25rem;
         max-width: 100%;
+        width: 100%;
     }
 
     .services-grid {
@@ -1457,6 +1462,10 @@ textarea.form-control {
         flex-direction: column;
         border-radius: var(--radius-md);
         width: 100%;
+    }
+
+    .vehicles-track {
+        grid-template-columns: repeat(3, 160px);
     }
 
     .gallery-track {
@@ -1545,7 +1554,7 @@ textarea.form-control {
     }
 
     .gallery-track {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .booking-card {
@@ -1554,8 +1563,7 @@ textarea.form-control {
     }
 
     .vehicles-track {
-        grid-template-columns: repeat(2, minmax(160px, 1fr));
-        overflow-x: auto;
+        grid-template-columns: repeat(2, 150px);
     }
 
     .float-btn {
@@ -1572,20 +1580,6 @@ textarea.form-control {
     .header-container {
         padding: 0.5rem 0.85rem;
     }
-
-    .booking-card {
-        padding: 0.85rem;
-    }
-
-    .services-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.75rem;
-    }
-
-    .container {
-        padding: 0 1rem;
-    }
-}
 
 :root {
     --primary: #f97316;
