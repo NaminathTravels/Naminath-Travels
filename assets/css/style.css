@@ -1431,11 +1431,54 @@ textarea.form-control {
         flex-wrap: wrap;
         gap: 1rem;
     }
+
+    .btn-book-header {
+        display: none;
+    }
+
+    .hero-cta-buttons {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .booking-card {
+        padding: 1.25rem;
+        max-width: 100%;
+    }
+
+    .hero-form-wrapper {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .hero-container {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 480px) {
     .hero-title {
-        font-size: 1.95rem;
+        font-size: 1.75rem;
+    }
+
+    .hero-description {
+        font-size: 0.95rem;
+    }
+
+    .hero-badge {
+        font-size: 0.75rem;
+    }
+
+    .btn-hero {
+        padding: 0.7rem 1.25rem;
+        font-size: 0.9rem;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .hero-cta-buttons {
+        flex-direction: column;
+        gap: 0.65rem;
     }
 
     .services-grid {
@@ -1448,6 +1491,46 @@ textarea.form-control {
 
     .gallery-track {
         grid-template-columns: 1fr;
+    }
+
+    .booking-card {
+        padding: 1rem;
+        border-radius: 12px;
+    }
+
+    .float-btn {
+        width: 42px;
+        height: 42px;
+        font-size: 1.1rem;
+    }
+
+    .floating-contact-bar {
+        bottom: 15px;
+        right: 15px;
+        gap: 0.5rem;
+    }
+
+    .vehicles-track {
+        grid-template-columns: repeat(2, 1fr);
+        overflow-x: auto;
+    }
+}
+
+@media (max-width: 375px) {
+    .hero-title {
+        font-size: 1.55rem;
+    }
+
+    .header-container {
+        padding: 0.5rem 1rem;
+    }
+
+    .booking-card {
+        padding: 0.85rem;
+    }
+
+    .btn {
+        font-size: 0.85rem;
     }
 }
 
