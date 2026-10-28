@@ -47,11 +47,13 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    min-width: 0;
 }
 
 html {
     scroll-behavior: smooth;
     font-size: 16px;
+    overflow-x: hidden;
 }
 
 body {
@@ -61,6 +63,7 @@ body {
     line-height: 1.6;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
+    width: 100%;
 }
 
 img {
@@ -91,6 +94,7 @@ textarea {
     max-width: 1240px;
     margin: 0 auto;
     padding: 0 1.5rem;
+    width: 100%;
 }
 
 .section-padding {
@@ -286,6 +290,7 @@ textarea {
     align-items: center;
     background-color: var(--navy-dark);
     overflow: hidden;
+    width: 100%;
 }
 
 .hero-background-wrapper {
@@ -318,6 +323,7 @@ textarea {
     gap: 2.5rem;
     align-items: center;
     width: 100%;
+    max-width: 100%;
     padding-top: 2rem;
     padding-bottom: 3.5rem;
 }
@@ -468,6 +474,7 @@ textarea {
 
 .form-control {
     width: 100%;
+    max-width: 100%;
     padding: 0.65rem 0.85rem 0.65rem 2.25rem;
     font-size: 0.85rem;
     color: var(--text-heading);
